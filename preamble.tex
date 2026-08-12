@@ -1,0 +1,140 @@
+% ============================================================
+%  PREAMBLE  --  packages, page layout, heading styles
+%  Edit the project metadata in main.tex, not here.
+% ============================================================
+
+% ---------- Fonts & encoding ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}          % Latin Modern (matches the reference report)
+
+% ---------- Page geometry ----------
+\usepackage[a4paper,
+            left=1.25in, right=1in,
+            top=1in,      bottom=1in,
+            headheight=15pt]{geometry}
+
+% ---------- Line spacing ----------
+\usepackage{setspace}
+\onehalfspacing
+
+% ---------- Maths ----------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+% ---------- Graphics & figures ----------
+\usepackage{graphicx}
+\graphicspath{{figures/}{figures/placeholders/}}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage[font=small,labelfont=bf,justification=centering]{caption}
+
+% ---------- Tables ----------
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{multirow}
+
+% ---------- Lists ----------
+\usepackage{enumitem}
+\setlist{itemsep=2pt, parsep=0pt, topsep=4pt}
+
+% ---------- Colour ----------
+\usepackage[table]{xcolor}
+
+% ---------- Headers & footers ----------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+% chapter-opening pages use the same plain style
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+% ---------- Chapter / section heading style ----------
+\usepackage{titlesec}
+% "CHAPTER N" on one line, TITLE centred beneath it
+\titleformat{\chapter}[display]
+  {\normalfont\Large\bfseries\centering}
+  {CHAPTER \thechapter}{12pt}{\Large\MakeUppercase}
+\titlespacing*{\chapter}{0pt}{-20pt}{28pt}
+
+\titleformat{\section}{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+% Numbering depth: numbered down to 5 levels (e.g. 5.1.1.1.1)
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+% Enable \paragraph / \subparagraph as numbered 4th/5th level headings
+\titleformat{\paragraph}[hang]
+  {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{2.0ex plus 1ex minus .2ex}{1.0ex plus .2ex}
+\titleformat{\subparagraph}[hang]
+  {\normalfont\normalsize\bfseries}{\thesubparagraph}{1em}{}
+\titlespacing*{\subparagraph}{0pt}{2.0ex plus 1ex minus .2ex}{1.0ex plus .2ex}
+
+% ---------- Table of contents formatting ----------
+\usepackage{tocloft}
+\renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand{\cftloftitlefont}{\hfill\Large\bfseries}
+\renewcommand{\cftafterloftitle}{\hfill}
+\renewcommand{\cftlottitlefont}{\hfill\Large\bfseries}
+\renewcommand{\cftafterlottitle}{\hfill}
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftchappagefont}{\bfseries}
+\setlength{\cftbeforechapskip}{6pt}
+% widen the number columns so deep numbers (5.1.1.1.1) do not collide
+\setlength{\cftsecnumwidth}{2.6em}
+\setlength{\cftsubsecnumwidth}{3.4em}
+\setlength{\cftsubsubsecnumwidth}{4.2em}
+\setlength{\cftparanumwidth}{5.0em}
+\setlength{\cftsubparanumwidth}{5.8em}
+
+% ---------- Gantt chart ----------
+\usepackage{pgfgantt}
+
+% ---------- Diagrams drawn in LaTeX (optional) ----------
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds}
+
+% ---------- Code listings (optional) ----------
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  frame=single,
+  captionpos=b,
+  showstringspaces=false
+}
+
+% ---------- Hyperlinks (load late) ----------
+\usepackage[hidelinks, bookmarks=true, bookmarksnumbered=true]{hyperref}
+
+% ============================================================
+%  HELPER MACROS
+% ============================================================
+
+% Placeholder frame for a diagram you have not drawn yet.
+% Usage: \figplaceholder{height}{label text}
+\newcommand{\figplaceholder}[2]{%
+  \fbox{\begin{minipage}[c][#1][c]{0.92\textwidth}
+    \centering\itshape\color{gray} #2
+  \end{minipage}}%
+}
+
+% Unnumbered front-matter chapter that still appears in the ToC.
+\newcommand{\frontchapter}[1]{%
+  \chapter*{#1}%
+  \addcontentsline{toc}{chapter}{#1}%
+  \markboth{#1}{#1}%
+}

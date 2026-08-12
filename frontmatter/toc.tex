@@ -1,0 +1,21 @@
+% ---------------- CONTENTS / LIST OF FIGURES / LIST OF TABLES ----------------
+
+% Register the front-matter items in the ToC the way the reference report does
+% (Copyright, Acknowledgement, Abstract are listed above the numbered chapters;
+%  \frontchapter already added them, so nothing extra is needed here).
+
+\tableofcontents
+\clearpage
+
+% List of Figures -- also appears as a ToC entry
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+\clearpage
+
+% List of Tables -- the reference report omits this; delete these four lines
+% if your report has no numbered tables.
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
+\clearpage

@@ -1,0 +1,82 @@
+% ============================================================
+%  MINOR PROJECT FINAL REPORT
+%  Compile with:  latexmk -pdf main.tex
+% ============================================================
+\documentclass[12pt, a4paper, oneside]{report}
+
+\input{preamble}
+
+% ============================================================
+%  PROJECT METADATA  --  fill these in; they feed the title page
+% ============================================================
+\newcommand{\projecttitle}{Project Title Goes Here}
+\newcommand{\universityname}{TRIBHUVAN UNIVERSITY}
+\newcommand{\institutename}{INSTITUTE OF ENGINEERING}
+\newcommand{\collegename}{KHWOPA COLLEGE OF ENGINEERING}
+\newcommand{\collegeaddress}{Libali, Bhaktapur}
+\newcommand{\departmentname}{Department of Computer and Electronics Engineering}
+\newcommand{\degreename}{BACHELOR OF COMPUTER ENGINEERING}
+
+% Team members -- name / roll number
+\newcommand{\memberone}{Member One Name}      \newcommand{\rollone}{KCE0XXBCT0XX}
+\newcommand{\membertwo}{Member Two Name}      \newcommand{\rolltwo}{KCE0XXBCT0XX}
+\newcommand{\memberthree}{Member Three Name}  \newcommand{\rollthree}{KCE0XXBCT0XX}
+\newcommand{\memberfour}{Member Four Name}    \newcommand{\rollfour}{KCE0XXBCT0XX}
+
+% Supervisor / HOD / External examiner
+\newcommand{\supervisorname}{Er. Supervisor Name}
+\newcommand{\supervisordesignation}{Lecturer}
+\newcommand{\hodname}{Er. HOD Name}
+\newcommand{\externalname}{Er. External Examiner Name}
+\newcommand{\externaldesignation}{Senior Lecturer}
+\newcommand{\externalcollege}{External College Name}
+
+\newcommand{\submissiondate}{Month, Year}
+
+% ============================================================
+\begin{document}
+
+% ------------------------------------------------------------
+%  FRONT MATTER  (roman numerals)
+% ------------------------------------------------------------
+% Title page and certificate carry no page number; the roman sequence
+% begins at the Copyright page, which is page i (as in the reference report).
+% hypertarget anchors are suppressed on these two pages so they cannot
+% collide with the roman-numbered ones that follow.
+\begingroup
+\hypersetup{pageanchor=false}
+\input{frontmatter/titlepage}          % unnumbered
+\input{frontmatter/certificate}        % unnumbered
+\endgroup
+
+\clearpage
+\pagenumbering{roman}
+\setcounter{page}{1}                   % Copyright starts at page i
+\input{frontmatter/copyright}          % i
+\input{frontmatter/acknowledgement}    % ii
+\input{frontmatter/abstract}           % iii
+
+\input{frontmatter/toc}                % Contents, List of Figures/Tables
+\input{frontmatter/abbreviations}      % List of Symbols and Abbreviation
+
+% ------------------------------------------------------------
+%  BODY  (arabic numerals)
+% ------------------------------------------------------------
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{chapters/ch1_introduction}
+\input{chapters/ch2_literature_review}
+\input{chapters/ch3_methodology}
+\input{chapters/ch4_system_design}
+\input{chapters/ch5_result_discussion}
+\input{chapters/ch6_conclusion}
+
+% ------------------------------------------------------------
+%  BACK MATTER
+% ------------------------------------------------------------
+\input{backmatter/references}
+\input{backmatter/appendix}
+
+\end{document}
