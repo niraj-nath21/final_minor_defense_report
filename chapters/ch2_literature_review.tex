@@ -6,144 +6,445 @@
 \section{Literature Review}
 \label{sec:literature-review}
 
-\subsection{}
+\subsection{Classical and Heuristic Game AI}
 \label{subsec:lit-1}
-% e.g. significance / impact of the problem domain
 
+In the early development of video game artificial intelligence, control policies
+rested almost entirely on deterministic, human-designed frameworks such as
+Finite State Machines (FSMs), behaviour trees and heuristic search. The
+groundwork for treating games as serious AI problems was laid much earlier:
+Shannon~\cite{shannon1950} framed chess as an ideal research domain because of its
+well-defined state space and unambiguous goal, and proposed the minimax
+evaluation that underpins most later search agents. Samuel~\cite{samuel1959} went a step
+further with checkers, showing that a program could improve its own evaluation
+function through self-play and rote learning, and eventually outplay its author.
+Both results established the pattern that games would remain the benchmark of
+choice for machine decision-making.
 
+\noindent
+In platforming games specifically, tree search has produced some of the
+strongest classical results. The clearest example came from the 2009 Mario AI
+Competition described by Togelius, Karakovskiy and Baumgarten~\cite{togelius2010}, where
+Baumgarten's A$^*$ agent took first place by planning through an internal
+forward model of the game. The agent searched over future game states in the
+space of jump and movement actions, and because the simulator it planned with
+was an exact copy of the game engine, its plans were near-optimal. It cleared
+levels faster and more reliably than every learning-based entry in that year's
+competition.
 
-\subsection{}
+\noindent
+That success, however, depends on conditions that rarely hold outside a
+competition harness. Two limitations stand out:
+
+\begin{enumerate}
+    \item \textbf{Model Dependence:} A$^*$ and related planners need real-time
+    access to a perfect internal simulator in order to predict future frames.
+    Where the dynamics are unknown or parts of the execution state are hidden,
+    the planner has nothing to search over and the method fails outright.
+
+    \item \textbf{Brittle Generalization:} Hand-crafted decision trees and
+    tuned heuristic weights do not adapt when environmental parameters change.
+    A shift in level geometry or in enemy spawn patterns during execution is
+    often enough to break behaviour that was reliable a moment earlier.
+\end{enumerate}
+
+\subsection{Deep Reinforcement Learning Paradigms}
 \label{subsec:lit-2}
-% e.g. traditional / classical approaches
 
+Combining deep neural networks with reinforcement learning shifted the field
+towards policies learned directly from sensory observation rather than written
+by hand. Mnih \emph{et al.}~\cite{mnih2015} introduced the Deep Q-Network, which paired a
+convolutional network with Q-learning and learned to play forty-nine Atari 2600
+games from raw pixels and the score alone, reaching or exceeding professional
+human level on a majority of them using one architecture and one set of
+hyperparameters throughout. Two mechanisms made this stable: experience replay,
+which stores transitions and samples them at random to break the correlation
+between consecutive frames, and a periodically frozen target network that keeps
+the regression target from moving with every update.
 
+\noindent
+Later policy-gradient methods improved on this. Schulman \emph{et al.}~\cite{schulman2017} proposed
+Proximal Policy Optimization, which constrains each policy update with a clipped
+surrogate objective so that a single batch of experience can be reused for
+several gradient steps without the update collapsing the policy. PPO gave much
+of the reliability of earlier trust-region methods at a fraction of the
+implementation cost, and it became a default choice for continuous control.
 
-\subsection{}
+\noindent
+Deceptive and sparse rewards remained a separate problem. Pathak \emph{et al.}~\cite{pathak2017}
+addressed it with curiosity as an intrinsic reward, defining novelty as the
+error of a forward model predicting the consequences of the agent's own actions
+in a learned feature space that deliberately ignores parts of the observation
+the agent cannot influence. Their agent learned to explore Super Mario Bros.
+with no external reward at all, clearing a substantial portion of the first
+level purely to reach screen states it could not yet predict.
+
+\noindent
+Applied to platformers, though, the paradigm carries structural costs:
+
+\begin{itemize}
+    \item \textbf{High Sample Complexity:} Training routinely needs tens of
+    millions of environment interactions before basic momentum and collision
+    behaviour becomes reliable.
+
+    \item \textbf{Fixed Topology Constraints:} The network architecture is
+    chosen before training and never changes. Optimization adjusts weights
+    only, so structural capacity stays locked regardless of how hard the task
+    turns out to be.
+
+    \item \textbf{Heavy Computational Requirements:} Pushing uncompressed
+    $256 \times 240$ frame buffers through multi-layer convolutional networks
+    calls for dedicated GPU acceleration and a substantial energy budget.
+\end{itemize}
+
+\subsection{Neuroevolution and NEAT Milestones}
 \label{subsec:lit-3}
-% e.g. modern (deep learning / current) approaches
 
+Neuroevolution takes a different view of the same problem, treating policy
+generation as a global stochastic search rather than a gradient descent. Yao~\cite{yao1999} surveyed the field as it stood before NEAT and drew the distinction that
+still organizes it: evolving connection weights, evolving architecture, and
+evolving learning rules are separate levels at which evolution can act, and
+combining them is what makes evolutionary methods more than an alternative
+optimizer. Yao also identified the permutation problem, where two networks
+encode the same function through different node orderings, which makes naive
+crossover between architectures destructive.
 
+\noindent
+Stanley and Miikkulainen~\cite{stanley2002} answered that problem directly with
+NeuroEvolution of Augmenting Topologies. NEAT co-evolves connection weights and
+graph topology from a minimal starting configuration, and rests on three ideas
+that work together. Historical markings assign every new gene a global
+innovation number, so two genomes can be aligned by origin and crossed over
+without the permutation problem. Speciation groups genomes by topological
+similarity and makes them compete mainly within their own species, which gives a
+newly added node or connection time to be optimized before it has to justify
+itself against fully tuned rivals. Starting minimal and complexifying
+incrementally keeps the search in a low-dimensional space early on and adds
+dimensions only when they earn their place. Their ablation experiments showed
+each of the three is necessary; removing any one of them substantially degrades
+performance.
 
-\subsection{}
+\noindent
+Lehman and Stanley~\cite{lehman2011} later questioned the objective itself. They argued
+that in deceptive domains a fitness function actively misleads search, because
+the stepping stones to a solution usually look worse than the local optimum
+next to them. Their alternative, novelty search, rewards behavioural novelty
+and ignores the objective entirely, and it outperformed objective-based search
+on deceptive maze and biped tasks. The observation applies directly to
+platforming, where fitness measured as horizontal progress penalizes exactly the
+risky multi-step manoeuvres that progress requires.
+
+\noindent
+NEAT reached platforming games most visibly through MarI/O~\cite{sethbling2015},
+an open-source demonstration that ran NEAT through Lua scripting in the BizHawk
+emulator and evolved a network that completed a level of Super Mario World from
+a tile-grid input. It showed convincingly that minimal evolved topologies could
+solve a control task of this kind, but the implementation had clear
+constraints:
+
+\begin{enumerate}
+    \item \textbf{Single-Level Overfitting:} Networks were evolved against one
+    fixed level, so agents memorized specific button timings for that layout
+    instead of acquiring platforming behaviour that transferred elsewhere.
+
+    \item \textbf{Brittle Fitness Metrics:} The reward was dominated by simple
+    horizontal progress, which left agents prone to local optima such as
+    standing still in a safe pocket of the level or stalling against a minor
+    obstacle.
+\end{enumerate}
+
+\noindent
+Autin~\cite{autin2024} built a more careful NEAT platforming framework in \emph{Super
+Mario Evolution by the Augmentation of Topology} to address these weaknesses.
+The fitness evaluation was refined to penalize time stagnation and risk
+aversion rather than rewarding raw distance, and training moved to a
+scenario-based regime in which evolving networks face a range of environmental
+setups instead of a single fixed level. Together these changes pushed the
+evolved agents towards generalized obstacle traversal rather than
+level-specific memorization.
+
+\subsection{State Representation and Direct RAM Extraction}
 \label{subsec:lit-4}
-% e.g. dataset limitations and the solutions proposed in the literature
 
+How the input state is represented governs both agent performance and, just as
+importantly, evaluation throughput. The Mario AI Benchmark of Karakovskiy and
+Togelius~\cite{karakovskiy2012} made the point concretely: the framework was built so that
+agents could be evaluated at many times real-time speed across procedurally
+generated levels, and feeding uncompressed visual frame buffers into evolving
+networks inflates the input layer to the point where parameter counts explode
+and real-time population evaluation stops being tractable. Their competition
+results also showed that agents tested only on the levels they were tuned for
+scored well above their performance on unseen ones, which is the same
+overfitting failure that later affected MarI/O.
 
+\noindent
+Modern implementations therefore tend to bypass frame rendering in favour of
+reading the emulator's memory directly:
 
-\subsection{}
+\begin{itemize}
+    \item \textbf{Direct RAM Extraction:} Memory-mapping utilities such as
+    those developed by Yu~\cite{yu2020} for Super Mario Bros. reinforcement learning
+    environments read entity byte registers straight from emulator RAM. Player
+    coordinates $(x, y)$, velocity vectors and active sprite hitboxes come out
+    as exact values with no rendering or computer vision overhead, and without
+    the ambiguity of inferring them from pixels.
+
+    \item \textbf{Spatial Memory Quantization:} Mapping continuous RAM
+    coordinates onto a discrete, agent-centric grid, such as a $16 \times 13$
+    tile matrix, compresses a high-dimensional spatial observation into a small
+    set of structural categories, typically solid terrain as $+1$, hostile
+    entities as $-1$ and empty space as $0$. The result is a low-latency input
+    small enough for a minimal NEAT topology to work with from the first
+    generation.
+\end{itemize}
+
+\subsection{Identified Research Gap}
 \label{subsec:lit-5}
-% e.g. current limitations in real-world application
 
-
-
-% ============================================================
-\section{Related Theories}
-\label{sec:related-theories}
-
-% ------------------------------------------------------------
-\subsection{}
-\label{subsec:theory-model-1}
-% ---- Model / Technique 1 ----
-
-\subsubsection{}
-% e.g. input / stem layer
-
-\subsubsection{}
-% e.g. core building block
-
-\subsubsection{}
-% e.g. the defining mechanism of this architecture
-
-\subsubsection{}
-% e.g. feature extraction hierarchy
-
-\subsubsection{}
-% e.g. normalization
-
-\subsubsection{}
-% e.g. activation function
-
-\subsubsection{}
-% e.g. pooling
-
-\subsubsection{}
-% e.g. output / classification head
-
-\subsubsection{Loss Function}
-
-\subsubsection{Optimization}
-
-\subsubsection{Learning Rate Schedule}
-
-\subsubsection{Training Strategy}
-
-\subsubsection{}
-% add or remove sub-subsections to match your architecture
-
-
-% ------------------------------------------------------------
-\subsection{}
-\label{subsec:theory-model-2}
-% ---- Model / Technique 2 ----
-
-\subsubsection{}
-
-\subsubsection{}
-
-\subsubsection{}
-
-\subsubsection{}
-
-\subsubsection{}
-
-\subsubsection{Loss Function}
-
-\subsubsection{Optimization}
-
-\subsubsection{Training Strategy}
-
-
-% ------------------------------------------------------------
-\subsection{}
-\label{subsec:theory-model-3}
-% ---- Model / Technique 3 ----
-
-\subsubsection{}
-
-\subsubsection{}
-
-\subsubsection{}
-
-\subsubsection{}
-
-\subsubsection{Loss Function}
-% Use \paragraph for a 4th numbering level, e.g. 2.2.3.7.1 / 2.2.3.7.2
-\paragraph{}
-
-\paragraph{}
-
-\subsubsection{}
-
+Taken together, the literature leaves a specific opening. Classical planners
+are efficient but need a perfect forward model and do not generalize. Deep
+reinforcement learning generalizes better but pays for it in sample complexity
+and GPU time, and its topology is fixed before the task is understood. NEAT
+removes the fixed-topology constraint, yet the best-known platforming
+applications of it either overfit a single level, as MarI/O did, or address
+fitness design without also addressing the cost of the input representation.
+The combination this project pursues, direct RAM extraction with spatial
+quantization feeding a speciated NEAT population trained entirely on CPU, sits
+in that gap: it targets the input dimensionality problem identified by
+Karakovskiy and Togelius~\cite{karakovskiy2012}, the deceptive fitness problem
+raised by Lehman and Stanley~\cite{lehman2011}, and the premature elimination of structural innovation that Stanley
+and Miikkulainen's speciation mechanism~\cite{stanley2002} was designed to
+prevent.
 
 % ============================================================
-\section{Review Matrix}
-\label{sec:review-matrix}
+\section{Comparative Analysis of Control Paradigms}
+\label{sec:comparative-analysis}
+
+Table~\ref{tab:paradigm-comparison} summarizes the architectural and
+operational trade-offs across classical AI, deep reinforcement learning, early
+neuroevolution as represented by MarI/O, and the advanced topology evolution
+adopted in this project.
 
 \begin{table}[H]
 \centering
-\caption{Review Matrix}
-\label{tab:review-matrix}
-\begin{tabularx}{\textwidth}{@{}p{0.16\textwidth} p{0.14\textwidth} X p{0.16\textwidth}@{}}
+\caption{Comparison of Autonomous Game-Playing Approaches}
+\label{tab:paradigm-comparison}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.15\textwidth}
+                             >{\raggedright\arraybackslash}X
+                             >{\raggedright\arraybackslash}X
+                             >{\raggedright\arraybackslash}X
+                             >{\raggedright\arraybackslash}X@{}}
 \toprule
-\textbf{Author / Year} & \textbf{Method} & \textbf{Dataset \& Results} & \textbf{Limitations} \\
+\textbf{Dimension} & \textbf{Classical AI} & \textbf{Deep RL} &
+\textbf{Early NEAT} & \textbf{Advanced NEAT} \\
 \midrule
- &  &  &  \\
+Architecture & Static rules & Fixed neural layers & Dynamic topology &
+Dynamic topology \\
 \addlinespace
- &  &  &  \\
+Compute hardware & Low (single CPU) & High (dedicated GPU) &
+Low (single CPU) & Moderate (multi-core CPU) \\
 \addlinespace
- &  &  &  \\
+Input representation & Direct state engine & Uncompressed pixels &
+Basic screen matrix & Quantized $16 \times 13$ RAM grid \\
 \addlinespace
- &  &  &  \\
+State extraction & Forward simulator & Visual frame buffer &
+Emulator Lua hook & Direct memory scraper \\
+\addlinespace
+Generalization ability & Poor (brittle rules) & Moderate (sample hungry) &
+Poor (level memorization) & High (fitness and dataset refined) \\
+\addlinespace
+Training efficiency & Instant & $10^7+$ frames & $10^5+$ evaluations &
+$10^4$--$10^5$ evaluations \\
 \bottomrule
 \end{tabularx}
 \end{table}
+
+% ============================================================
+% A longtable is not a float, so the figure/table rules in the preamble do not
+% cover it: it starts wherever it likes and would leave this heading stranded
+% at the foot of the previous page. The table needs most of a page anyway, so
+% the heading and the table are simply started together on a fresh page.
+\FloatBarrier
+\clearpage
+
+\section{Review Matrix}
+\label{sec:review-matrix}
+
+% Ragged-right cells keep the narrow columns from stretching inter-word space.
+\newcolumntype{R}[1]{>{\raggedright\arraybackslash}p{#1}}
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+% \LTpre defaults to \bigskipamount, a stretchable glue that gives TeX a legal
+% breakpoint between the heading and the table. Zeroing it removes that
+% breakpoint so the two cannot be separated.
+\setlength{\LTpre}{0pt}
+\begin{longtable}{@{}R{0.175\textwidth} R{0.185\textwidth} R{0.185\textwidth} R{0.185\textwidth} R{0.185\textwidth}@{}}
+\caption{Review Matrix of the Surveyed Literature}
+\label{tab:review-matrix} \\
+\toprule
+\textbf{Reference} & \textbf{Problem Statement} & \textbf{Methodology} &
+\textbf{Outcomes} & \textbf{Research Gaps} \\
+\midrule
+\endfirsthead
+
+\multicolumn{5}{@{}l}{\small\itshape Table \thetable\ continued from previous page} \\
+\toprule
+\textbf{Reference} & \textbf{Problem Statement} & \textbf{Methodology} &
+\textbf{Outcomes} & \textbf{Research Gaps} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{5}{r@{}}{\small\itshape Continued on next page} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+1. Shannon~\cite{shannon1950} (1950), Programming a Computer for Playing Chess &
+Whether a machine can play chess without exhaustively enumerating a search
+space too large to traverse &
+Minimax search to a fixed depth with a hand-designed evaluation function over
+material and position &
+Established the evaluation-plus-search formulation used by later game-playing
+programs &
+Evaluation weights set by hand; no mechanism for the program to improve them
+from experience \\
+\addlinespace
+
+2. Samuel~\cite{samuel1959} (1959), Machine Learning Using the Game of Checkers &
+Hand-tuned evaluation functions do not improve and cannot exceed the knowledge
+of their designer &
+Self-play with rote learning and adjustment of evaluation-function weights from
+game outcomes &
+Program improved beyond its author's play; first widely cited demonstration of
+machine learning in a game &
+Restricted to a small discrete domain with a linear evaluation function; no
+learning from raw perception \\
+\addlinespace
+
+3. Togelius, Karakovskiy \& Baumgarten~\cite{togelius2010} (2010), The 2009 Mario AI Competition &
+Whether platforming can be automated well by planning, and how competing
+approaches compare on a common benchmark &
+Open competition on a Super Mario clone; the winning A$^*$ agent planned over
+an internal forward model of the engine &
+A$^*$ agent won first place and outperformed all learning-based entries on
+level completion and speed &
+Requires an exact simulator to plan with; agents were brittle to unseen level
+geometry and enemy patterns \\
+\addlinespace
+
+4. Mnih \emph{et al.}~\cite{mnih2015} (2015), Human-Level Control through Deep Reinforcement Learning &
+Reinforcement learning from high-dimensional raw sensory input was unstable and
+domain-specific &
+Deep Q-Network combining a convolutional network with Q-learning, experience
+replay and a periodically frozen target network &
+Human-level or better play on the majority of 49 Atari 2600 games from pixels
+alone, with one architecture throughout &
+Tens of millions of frames per game; fixed topology chosen before training; GPU
+dependent \\
+\addlinespace
+
+5. Schulman \emph{et al.}~\cite{schulman2017} (2017), Proximal Policy Optimization Algorithms &
+Policy-gradient updates are unstable, and trust-region methods that fix this
+are complex and costly to implement &
+Clipped surrogate objective limiting policy change per update, allowing several
+epochs of minibatch reuse per batch &
+Stability comparable to trust-region methods at far lower complexity; strong
+results on continuous control and Atari &
+Still fixed topology and sample-hungry; no structural adaptation to task
+difficulty \\
+\addlinespace
+
+6. Pathak \emph{et al.}~\cite{pathak2017} (2017), Curiosity-Driven Exploration by Self-Supervised
+Prediction &
+Sparse and deceptive external rewards leave agents with no gradient to explore
+along &
+Intrinsic reward from forward-model prediction error in a learned feature space
+that ignores uncontrollable observation detail &
+Agent explored Super Mario Bros.\ and cleared much of level 1-1 with no
+external reward; improved exploration in VizDoom &
+Curiosity can stall on stochastic distractors; still built on a fixed deep
+architecture with heavy compute demands \\
+\addlinespace
+
+7. Yao~\cite{yao1999} (1999), Evolving Artificial Neural Networks &
+Network architecture is normally fixed by hand, and evolving it naively is
+disrupted by competing conventions &
+Survey and taxonomy separating the evolution of weights, architectures and
+learning rules, with their interactions &
+Framed evolution at multiple levels as a coherent alternative to gradient
+training; named the permutation problem &
+No concrete encoding solving crossover between differing topologies; largely
+pre-empirical for control tasks \\
+\addlinespace
+
+8. Stanley \& Miikkulainen~\cite{stanley2002} (2002), Evolving Neural Networks through Augmenting
+Topologies &
+Evolving topology and weights together suffers from destructive crossover and
+early loss of new structure &
+NEAT: historical markings for gene alignment, speciation to protect innovation,
+and incremental complexification from a minimal start &
+Outperformed fixed-topology neuroevolution on pole balancing; ablation showed
+all three mechanisms are necessary &
+Demonstrated on low-dimensional control; input representation for
+high-dimensional game states left open \\
+\addlinespace
+
+9. Lehman \& Stanley~\cite{lehman2011} (2011), Abandoning Objectives &
+In deceptive domains the fitness function itself misleads search away from the
+stepping stones to a solution &
+Novelty search rewarding behavioural novelty against an archive, with the
+objective removed from selection entirely &
+Outperformed objective-based search on deceptive maze navigation and biped
+walking tasks &
+Pure novelty scales poorly as behaviour space grows; combining novelty with an
+objective left to later work \\
+\addlinespace
+
+10. SethBling~\cite{sethbling2015} (2015), MarI/O &
+Whether NEAT can evolve a working platforming controller in a real commercial
+game &
+NEAT via Lua in the BizHawk emulator, with a tile-grid input read from the
+emulator and fitness based on horizontal progress &
+Evolved a network that completed a level of Super Mario World from a minimal
+starting topology &
+Single-level overfitting and memorized button timings; progress-only fitness
+traps agents in local optima \\
+\addlinespace
+
+11. Karakovskiy \& Togelius~\cite{karakovskiy2012} (2012), The Mario AI Benchmark and Competitions &
+Platforming agents lacked a common benchmark, and were being evaluated on the
+levels they were tuned for &
+Benchmark on procedurally generated levels supporting faster-than-real-time
+evaluation, across gameplay and learning tracks &
+Standardized comparison across competition entries; quantified the gap between
+seen and unseen level performance &
+Raw frame input inflates the input layer and makes population evaluation
+intractable; generalization remained weak \\
+\addlinespace
+
+12. Yu~\cite{yu2020} (2020), Super Mario Bros.\ RL with RAM State Extraction &
+Pixel-based state extraction adds rendering and vision overhead and yields
+imprecise entity positions &
+Direct mapping of emulator RAM addresses to player coordinates, velocities and
+sprite hitboxes for RL environments &
+Exact low-dimensional state obtained without rendering, cutting per-step cost
+substantially &
+Address maps are game-specific and hand-derived; not paired with an evolving
+topology or a speciated population \\
+\addlinespace
+
+13. Autin~\cite{autin2024} (2024), Super Mario Evolution by the Augmentation of Topology &
+Early NEAT platforming agents memorized single levels and were misled by
+progress-based fitness &
+Refined fitness penalizing time stagnation and risk aversion, with
+scenario-based training across varied environmental setups &
+Agents generalized to obstacle traversal beyond a single level, improving on
+MarI/O-style implementations &
+Input representation and CPU-bound throughput not treated jointly with the
+fitness redesign \\
+\end{longtable}
+\endgroup

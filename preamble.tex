@@ -41,6 +41,42 @@
 \usepackage{enumitem}
 \setlist{itemsep=2pt, parsep=0pt, topsep=4pt}
 
+% ---------- Keep headings with the content that follows ----------
+% A heading must never be the last thing on a page. The reservation has to
+% cover the heading AND enough of what follows to be worth printing, otherwise
+% TeX places the heading in the small gap left at the foot of the page and
+% pushes the table or figure over to the next one.
+\usepackage{needspace}
+\usepackage{etoolbox}
+% \FloatBarrier: flush pending floats so they cannot consume reserved space.
+\usepackage{placeins}
+% NOTE: the \preto patches for \section and friends live AFTER \usepackage
+% {titlesec} further down, because titlesec redefines those commands and would
+% otherwise discard the patches.
+% Discourage page breaks straight after any heading.
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+
+% ---------- Keep every float together with its caption ----------
+% The chapters use [H] floats, which are dropped exactly where they are
+% written and can therefore be split from their caption at a page boundary.
+% Wrapping the body of each figure/table in an unbreakable minipage binds the
+% content and its caption into a single block: if it does not fit in the space
+% left, the whole block moves to the next page instead of being divided.
+%
+% \nobreak before the minipage forbids a page break immediately in front of
+% the float. When a float directly follows a section heading, that heading is
+% therefore carried onto the next page with it rather than being left behind
+% at the foot of the previous one.
+% The trailing \addvspace restores the separation a float normally leaves
+% below itself, which the surrounding minipage would otherwise swallow and
+% leave the caption sitting flush against the next paragraph.
+\BeforeBeginEnvironment{figure}{\par\nobreak\begingroup\minipage{\linewidth}}
+\AfterEndEnvironment{figure}{\endminipage\endgroup\par\addvspace{\baselineskip}}
+\BeforeBeginEnvironment{table}{\par\nobreak\begingroup\minipage{\linewidth}}
+\AfterEndEnvironment{table}{\endminipage\endgroup\par\addvspace{\baselineskip}}
+
 % ---------- Colour ----------
 \usepackage[table]{xcolor}
 
@@ -81,6 +117,19 @@
 \titleformat{\subparagraph}[hang]
   {\normalfont\normalsize\bfseries}{\thesubparagraph}{1em}{}
 \titlespacing*{\subparagraph}{0pt}{2.0ex plus 1ex minus .2ex}{1.0ex plus .2ex}
+
+% ---------- Keep every heading with the content that follows it ----------
+% These patches MUST come after the \titleformat declarations above: titlesec
+% redefines \section and friends, which would silently discard an earlier
+% \preto. The reservation covers the heading plus enough of the following
+% content that a heading can never be left stranded at the foot of a page.
+% 10 lines is roughly the height of a typical figure placeholder plus its
+% caption, so a heading whose section opens with a float reserves enough room
+% for both; otherwise the pair moves to the next page together.
+\preto\section{\Needspace*{10\baselineskip}}
+\preto\subsection{\Needspace*{8\baselineskip}}
+\preto\subsubsection{\Needspace*{8\baselineskip}}
+\preto\paragraph{\Needspace*{5\baselineskip}}
 
 % ---------- Table of contents formatting ----------
 \usepackage{tocloft}

@@ -2,37 +2,106 @@
 \chapter{Introduction}
 \label{ch:introduction}
 % ============================================================
-
+ 
 \section{Background}
 \label{sec:background}
 
+Artificial intelligence and video games have been studied together for decades.
+In the early years of computing, games were treated as ideal testbeds for
+autonomous decision-making. Shannon~\cite{shannon1950} pointed to chess as an optimal
+research environment because of its well-defined state space, explicit rules and
+unambiguous terminal goal, and Samuel~\cite{samuel1959} soon after showed that an
+automated system could surpass human expert play in checkers through adaptive
+evaluation functions. By the 1980s and 1990s, game AI was common in commercial
+titles, but it depended largely on static, deterministic techniques such as
+Finite State Machines (FSMs) and scripted decision trees. These were
+lightweight and reliable in predictable settings, yet they generalized poorly:
+an unexpected player strategy or a small change in the environment was often
+enough to make the whole policy fail.
 
+\noindent
+The situation changed with modern machine learning, and particularly with Deep
+Reinforcement Learning (DRL), where an agent learns a control policy by
+trial and error through interaction with its environment. A key breakthrough
+came from Mnih \emph{et al.}~\cite{mnih2015}, who combined deep convolutional networks with
+Q-learning in the Deep Q-Network (DQN). This architecture linked
+high-dimensional visual input directly to action selection, producing
+end-to-end control policies learned from raw pixel arrays across the Atari 2600
+benchmark suite.
+
+\noindent
+Despite these successes, DRL carries real operational costs. Deep models need
+large amounts of experience, considerable hardware and long training runs,
+especially when they operate on high-dimensional raw pixel matrices. They also
+depend on a fixed, hand-engineered network topology that is decided before
+training begins. Since the structure itself cannot adapt, such models struggle
+to scale to dynamic control domains. In a fast-paced platforming game like
+Super Mario Bros., where continuous momentum, split-second collision avoidance
+and spatial pathfinding all have to be resolved at once, fixed-topology DRL
+models run into both convergence and computational bottlenecks.
+
+\noindent
+Neuroevolution offers a different route. Instead of tuning connection weights
+over a fixed architecture through gradient descent, it evolves network
+topologies and parameters together using evolutionary algorithms. The
+foundational method in this area is NeuroEvolution of Augmenting Topologies
+(NEAT), introduced by Stanley and Miikkulainen~\cite{stanley2002}. NEAT begins with a
+population of minimal networks and complexifies them incrementally, which keeps
+the early generations searching in a low-dimensional parameter space before any
+structural capacity is added.
+
+\noindent
+This project applies NEAT to Super Mario Bros. to examine whether dynamic
+structural self-organization allows an agent to evolve competent platforming
+behaviour and generalize across level variations, without hand-crafted
+heuristics and without the overhead of a pixel-based DRL pipeline.
 
 \section{Motivation}
 \label{sec:motivation}
 
+The motivation behind this project is to build lightweight, adaptive control
+agents with NEAT as an alternative to compute-heavy Deep Reinforcement Learning
+systems. Rather than depending on static deep architectures that need
+substantial GPU acceleration, NEAT evolves weights and network topology at the
+same time, starting from a minimal baseline and adding structure only when the
+task actually demands it.
 
+\noindent
+Within that framework, the work focuses on making NEAT efficient in a
+platforming environment through two targeted enhancements: screen downsampling
+and automated speciation. Both serve a single aim, which is a lightweight
+NEAT-based agent for Super Mario Bros. that relies on direct RAM state
+extraction and spatial quantization to achieve real-time control on ordinary
+consumer hardware.
 
 \section{Problem Statement}
 \label{sec:problem-statement}
 
-% Bulleted list of the specific gaps this project addresses.
-\begin{itemize}
-    \item \textbf{}
-    \item \textbf{}
-    \item \textbf{}
-\end{itemize}
-
-
+Automating a platforming game such as Super Mario Bros. for high-speed
+completion demands continuous momentum control, precise collision avoidance and
+sound pathfinding under tight timing constraints, and applying neuroevolution
+here runs into three connected difficulties. Feeding raw frame buffer output
+into the network, a $256 \times 240$ pixel matrix amounting to $61{,}440$ input
+features per frame, inflates the input layer and with it the parameter search
+space, which slows population evaluation to the point where structural
+evolution becomes impractical. The reward landscape is also deceptive: standard
+fitness measures often reward agents that simply stay put in a safe spot and
+avoid damage, penalizing the multi-step risks such as leaping a bottomless pit
+or slipping past an enemy that progress actually requires, so the search settles
+into local optima. Finally, structural mutations tend to be selected away before
+they can prove useful, because adding a node or connection disturbs weights that
+were already working and lowers fitness in the short term; without a mechanism
+that shelters new topologies while they are being optimized, evolution
+consistently favours established, fully tuned networks over genuine innovation.
 
 \section{Objective}
 \label{sec:objective}
 
 \begin{itemize}
-    \item
+    \item To develop a lightweight NEAT-based agent for Super Mario Bros. that
+    uses direct RAM state extraction and spatial quantization to achieve
+    efficient real-time control on standard consumer hardware.
 \end{itemize}
-
-
 
 \section{Scope and Applications}
 \label{sec:scope-applications}
@@ -40,9 +109,22 @@
 \subsection{Scope}
 \label{subsec:scope}
 
-
+The project covers the design, training and evaluation of a NEAT agent on the
+early stages of Super Mario Bros., mainly Level 1-1, running on the stable
+retro NES emulator. The agent reads its state from emulator RAM instead of from
+pixels, and NEAT is the only control algorithm implemented; DQN and PPO appear
+in this report for comparison but are not built. Training is containerized with
+Docker for cross-platform reproducibility and stays CPU-bound throughout, so no
+GPU is required at any stage.
 
 \subsection{Applications}
 \label{subsec:applications}
 
-
+The same approach transfers to other settings where a control policy has to be
+learned cheaply. It suits game developers who want non-scripted opponents or
+playtesting bots that can find unintended routes and exploits before release,
+and it gives researchers and students a neuroevolution testbed that runs on a
+laptop rather than a cluster. More broadly, the combination of a compact state
+representation with a topology that grows only as needed is useful for embedded
+and resource-limited control problems, such as simple robotic navigation, where
+memory and processing budgets rule out large fixed networks.

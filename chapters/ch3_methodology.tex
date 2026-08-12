@@ -8,223 +8,714 @@
 
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.9\textwidth]{system_block_diagram}
-\figplaceholder{7cm}{[ System Block Diagram ]}
+\includegraphics[width=0.62\textwidth]{system_block_diagram}
 \caption{System Block Diagram}
 \label{fig:system-block-diagram}
 \end{figure}
 
-
-
-% ============================================================
-\section{Description of Working Flow of System}
-\label{sec:working-flow}
-
-\subsection{Dataset Collection}
-\label{subsec:dataset-collection}
-
-
-
-\subsection{Data Organization}
-\label{subsec:data-organization}
-
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.85\textwidth]{dataset_structure}
-\figplaceholder{6cm}{[ Dataset folder structure ]}
-\caption{Dataset folder structure.}
-\label{fig:dataset-structure}
-\end{figure}
-
-
-
-\subsection{Data Preprocessing}
-\label{subsec:data-preprocessing}
-
-\subsubsection{}
-% preprocessing for module / model group A
-
-\subsubsection{}
-% preprocessing for module / model group B
-
-
-\subsection{}
-\label{subsec:training-module-a}
-% ---- Module A model training ----
-
-\subsubsection{Model Selection}
-
-\subsubsection{Training Strategies}
-
-\subsubsection{Loss Function}
-
-
-\subsection{}
-\label{subsec:training-module-b}
-% ---- Module B model training ----
-
-\subsubsection{Training Strategy}
-
-\subsubsection{Loss Function}
-
-
-\subsection{}
-\label{subsec:auxiliary-module}
-% ---- Auxiliary module (e.g. external API / recommendation service) ----
-
-\subsubsection{API Integration}
-
-\subsubsection{System Integration}
-
-
-\subsection{}
-\label{subsec:derived-analysis}
-% ---- Derived analysis module (e.g. severity / scoring) ----
-
-\subsubsection{}
-
-\subsubsection{}
-
-\subsubsection{}
-
-
-\subsection{Final Output Generation}
-\label{subsec:final-output}
-
-
+\noindent
+Figure~\ref{fig:system-block-diagram} shows how the parts of the system fit
+together. The game ROM is loaded into the emulator, the emulator's memory is
+read every frame and reduced to a small grid, that grid is fed to the evolving
+network, and the network's decision is sent back to the emulator as a button
+press. This loop repeats for the whole run. Everything to the side of the
+loop, the logger and the report generator, only observes; nothing there feeds
+back into the agent.
 
 % ============================================================
-\section{Model Architecture}
-\label{sec:model-architecture}
+\section{Overall Approach}
+\label{sec:overall-approach}
 
-\subsection{Architecture}
-\label{subsec:architecture}
+We treated this project as an experiment rather than as a single
+implementation. The question we set out to answer was whether NEAT can evolve
+an agent that plays Super Mario Bros.\ competently, and we found early on that
+the answer depends heavily on what the agent is asked to do during training.
+An agent evolved against one level becomes very good at that level and close to
+useless anywhere else. That result is easy to obtain and easy to misread as
+success, so we decided to treat it as a baseline rather than as an outcome.
 
-\subsubsection{}
-% ---- Model 1 architecture ----
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.9\textwidth]{model1_architecture}
-\figplaceholder{7cm}{[ Model 1 Architecture ]}
-\caption{Model 1 Architecture}
-\label{fig:model1-architecture}
-\end{figure}
+\noindent
+We therefore built one shared pipeline and ran three different training
+strategies through it. The pipeline handles everything that does not depend on
+the strategy: loading the ROM, reading the emulator's memory, turning that
+memory into network inputs, converting network outputs into button presses,
+and recording what happened. The three strategies differ only in what a genome
+is evaluated on and how its fitness is computed from those evaluations.
 
+\noindent
+The first strategy trains a separate population per level and gives us a
+specialist for each. The second evaluates one genome across several levels and
+combines the results into a single fitness, which asks for consistency instead
+of peak performance. The third departs further from both: instead of starting
+every evaluation at the opening frame of a level, we collected a library of
+mid-level situations and evaluated genomes from those, so that the difficult
+parts of a level are practised as often as the easy opening stretch. This last
+approach follows the scheme proposed by Autin (2024) and is the one we
+developed furthest.
 
-\subsubsection{}
-% ---- Model 2 architecture ----
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.9\textwidth]{model2_architecture}
-\figplaceholder{7cm}{[ Model 2 Architecture ]}
-\caption{Model 2 Architecture}
-\label{fig:model2-architecture}
-\end{figure}
-
-
-\subsubsection{}
-% ---- Model 3 architecture ----
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.9\textwidth]{model3_architecture}
-\figplaceholder{7cm}{[ Model 3 Architecture ]}
-\caption{Model 3 Architecture}
-\label{fig:model3-architecture}
-\end{figure}
-
-
-% ------------------------------------------------------------
-\subsection{Hyperparameters}
-\label{subsec:hyperparameters}
-
-\subsubsection{}
-% ---- Model 1 hyperparameters ----
-\begin{table}[H]
-\centering
-\caption{Model 1 Hyperparameters}
-\label{tab:model1-hyperparameters}
-\begin{tabular}{@{}ll@{}}
-\toprule
-\textbf{Hyperparameter} & \textbf{Value} \\
-\midrule
- &  \\
- &  \\
- &  \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-\subsubsection{}
-% ---- Model 2 hyperparameters ----
-\begin{table}[H]
-\centering
-\caption{Model 2 Hyperparameters}
-\label{tab:model2-hyperparameters}
-\begin{tabular}{@{}ll@{}}
-\toprule
-\textbf{Hyperparameter} & \textbf{Value} \\
-\midrule
- &  \\
- &  \\
- &  \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-\subsubsection{}
-% ---- Model 3 hyperparameters ----
-\begin{table}[H]
-\centering
-\caption{Model 3 Hyperparameters}
-\label{tab:model3-hyperparameters}
-\begin{tabular}{@{}ll@{}}
-\toprule
-\textbf{Hyperparameter} & \textbf{Value} \\
-\midrule
- &  \\
- &  \\
- &  \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-% ------------------------------------------------------------
-\subsection{Hyperparameter Tuning Process}
-\label{subsec:hyperparameter-tuning}
-
-\subsubsection{}
-% tuning process for module A
-
-\subsubsection{}
-% tuning process for module B
-
+\noindent
+Keeping the infrastructure common across all three matters for the comparison.
+Because the state representation, the action decoding and the logging are
+identical in every run, any difference in the results comes from the training
+strategy itself and not from an incidental difference in how the agent sees the
+game.
 
 % ============================================================
-\section{Performance Evaluation Metrics}
-\label{sec:evaluation-metrics}
+\section{Common System Architecture}
+\label{sec:common-architecture}
 
-\subsection{}
-\label{subsec:metrics-module-a}
-% ---- Module A metrics (e.g. accuracy, precision, recall, F1) ----
+This section describes the parts of the system that every approach uses
+unchanged.
 
-% Example equation scaffold -- replace with your own metrics.
-% \begin{equation}
-%     \text{Metric} = \frac{}{}
-%     \label{eq:metric-1}
-% \end{equation}
+\subsection{Game ROM and Emulator}
+\label{subsec:rom-emulator}
 
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.6\textwidth]{confusion_matrix_template}
-\figplaceholder{6cm}{[ Confusion Matrix ]}
-\caption{Confusion Matrix}
-\label{fig:confusion-matrix-template}
-\end{figure}
+We used the original Super Mario Bros.\ NES ROM running under
+\texttt{stable\_retro}, a maintained fork of OpenAI Retro. We chose an emulator
+over reimplementing the game because the emulator reproduces the original
+physics exactly. Momentum in this game is subtle, and an approximation would
+have changed the problem the agent has to solve without us being able to say
+by how much.
+
+\noindent
+Each genome is evaluated in its own emulator instance, created with
+\texttt{stable\_retro.make()} and closed when the episode ends. Keeping the
+instances separate means no state can leak from one genome's run into the next.
+We train headless, with rendering disabled, because nothing in the pipeline
+reads the video output and drawing frames would only cost time. Episodes are
+capped at 4500 frames, roughly 75 seconds of game time, which is long enough
+for a capable genome to finish a level and short enough that a hopeless one
+does not tie up a core.
+
+\subsection{Game State Extraction from RAM}
+\label{subsec:ram-extraction}
+
+Rather than reading the screen, we read the emulator's memory directly. This
+was a deliberate methodological choice. Extracting state from pixels would mean
+adding a convolutional front end whose only job is to recover information the
+game already stores explicitly, and that front end would dominate both the
+parameter count and the training cost. Reading memory gives us the same
+information exactly, with no inference step and no rendering overhead.
+
+\noindent
+Every frame we take a snapshot of the 2\,KB of NES work RAM and read the
+values that describe the current situation:
+
+\begin{itemize}
+    \item \textbf{Mario's position.} His position in the level is assembled
+    from a page byte at \texttt{0x6D} and an offset at \texttt{0x86}. His
+    on-screen pixel coordinates come from \texttt{0x03AD} and \texttt{0x03B8}.
+
+    \item \textbf{Velocity.} Horizontal speed is a signed byte at
+    \texttt{0x7D}, which we use both as a fitness term and as a guard against
+    a degenerate behaviour described in Section~\ref{subsec:fitness}.
+
+    \item \textbf{Enemies.} The game tracks five enemy slots. An activity flag
+    for each starts at \texttt{0x0F}, with coordinates starting at
+    \texttt{0x6E} and \texttt{0xCF}.
+
+    \item \textbf{Death and completion.} Remaining lives sit at
+    \texttt{0x075A}, the player state byte at \texttt{0x000E} signals the
+    dying animation, and a viewport byte at \texttt{0x00B5} reveals a fall into
+    a pit. The byte at \texttt{0x001D} reads 3 when Mario is on the flagpole,
+    which is how we detect a completed level.
+
+    \item \textbf{Tilemap.} The background occupies a block beginning at
+    \texttt{0x0500}, stored as two 16-wide pages covering 32 columns by 13
+    rows.
+\end{itemize}
+
+\noindent
+Because a tile's address is simple arithmetic on its coordinates, we compute
+the whole address table once when the module loads and reuse it for the rest of
+the run. Each frame's read is then a single vectorised lookup rather than
+several hundred individual ones, which matters when the read happens sixty
+times a second for every genome in the population.
+
+\subsection{Spatial State Representation}
+\label{subsec:quantization}
+
+The extracted values are assembled into a grid that becomes the network's
+input. The reduction is as follows:
+
+\begin{center}
+\begin{tabular}{c}
+$256 \times 240$ pixel frame \\
+$\downarrow$ \\
+RAM tile representation \\
+$\downarrow$ \\
+$16 \times 13$ tile grid \\
+$\downarrow$ \\
+208 input features \\
+\end{tabular}
+\end{center}
+
+\noindent
+The grid covers what is currently on screen and is flattened into a
+208-element vector. Each cell carries one of four values:
+
+\begin{center}
+\begin{tabular}{@{}rl@{}}
+$0$  & empty space \\
+$1$  & solid terrain \\
+$-1$ & enemy \\
+$2$  & Mario \\
+\end{tabular}
+\end{center}
+
+\noindent
+This is the step that makes the project runnable on ordinary hardware. A raw
+frame carries 61{,}440 values; the grid carries 208, a reduction of roughly 295
+times. What it discards is colour, sprite artwork and animation detail, none of
+which affects whether a jump clears a gap. What it keeps is where the ground
+is, where the enemies are and where Mario stands, which is what the decision
+actually depends on.
+
+\noindent
+One detail here was a correction rather than a design decision. Mario is
+written into the grid at his own tile position, but during a jump his pixel
+height rises above the top row and the computed row index goes negative. Our
+original bounds check silently dropped him from the grid whenever that
+happened, so the network lost sight of Mario at the apex of every jump, which
+is precisely when that information matters most. We now clamp the row to the
+nearest edge instead, which keeps him present for the whole arc while leaving
+his horizontal position exact.
+
+\subsection{NEAT-Based Agent and Action Generation}
+\label{subsec:neat-agent}
+
+The agent is not a fixed model. NEAT is the evolutionary algorithm underneath
+it, and each genome in the population encodes a neural network whose topology
+as well as its weights are subject to evolution. What we specify is the
+interface: 208 inputs and 6 outputs. Everything between them is discovered
+during training, so it is more accurate to speak of an evolutionary neural
+agent than of an architecture we designed.
+
+\noindent
+Each of the six outputs corresponds to one controller button: RIGHT, LEFT, A,
+B, UP and DOWN. A button counts as held whenever its output exceeds 0.5.
+Because the outputs are thresholded independently, several can be active at
+once, which is what lets the agent express combinations such as running right
+while jumping. Most obstacles in the game cannot be cleared without one.
+
+\noindent
+We resolve button names against the environment's own button list at runtime
+rather than hard-coding positions in the action array, since that ordering is a
+property of the emulator rather than of the agent.
+
+\subsection{Fitness Function}
+\label{subsec:fitness}
+
+Every approach scores its genomes with a fitness function, since fitness is
+what decides which genomes reproduce. The function itself is not common to the
+three approaches, however: each one asks a different question of its genomes
+and therefore needs a different way of measuring them, and the fitness function
+is the main thing that distinguishes them. The three formulations are given
+alongside the approaches that use them in
+Section~\ref{sec:training-approaches}.
 
 
-\subsection{}
-\label{subsec:metrics-module-b}
-% ---- Module B metrics (e.g. IoU, mIoU, Dice) ----
+\subsection{Evolutionary Process}
+\label{subsec:evolution-loop}
+
+One generation proceeds as follows:
+
+\begin{center}
+\begin{tabular}{c}
+Initialise population \\
+$\downarrow$ \\
+Decode genomes into networks \\
+$\downarrow$ \\
+Evaluate each genome in the game \\
+$\downarrow$ \\
+Compute fitness \\
+$\downarrow$ \\
+Speciation \\
+$\downarrow$ \\
+Selection \\
+$\downarrow$ \\
+Crossover and mutation \\
+$\downarrow$ \\
+Next generation \\
+\end{tabular}
+\end{center}
+
+\noindent
+We run a population of 150. Genomes start fully connected, every input wired
+to every output, with no hidden nodes; structure is added later by mutation.
+Each genome is decoded into a feed-forward network, played through an episode
+and scored. Genomes are then grouped into species by structural similarity so
+that a new topology competes against close relatives rather than against the
+whole population before its weights have been tuned. The top 20\% of each
+species breeds, the best two genomes carry over unchanged, and the children
+form the next generation.
+
+\noindent
+Because each genome's episode is independent of every other, we evaluate them
+in parallel across CPU cores. We wrote our own parallel evaluator rather than
+using the one in \texttt{neat-python}, whose worker contract expects a worker
+to return a fitness for a genome handed to it. Our workers each have to build
+an emulator instance, run the episode and tear the emulator down again, which
+does not fit that contract.
+
+\subsection{Logging, Checkpoints and Evaluation}
+\label{subsec:logging-reporting}
+
+Recording runs properly mattered more than we expected, because training takes
+hours and a run whose history is lost has to be repeated. Two consumers sit at
+the end of the pipeline and observe without influencing anything.
+
+\noindent
+A CSV logger is attached to the population as a reporter and fires at the end
+of every generation, appending one row to \texttt{metrics.csv} containing:
+
+\begin{itemize}
+    \item generation number, timestamp and duration;
+    \item fitness statistics, namely maximum, mean, median, minimum and
+    standard deviation;
+    \item game statistics, namely the best distance reached and whether the
+    level was completed;
+    \item topology statistics for the best genome, its node and connection
+    counts, together with the number of species alive.
+\end{itemize}
+
+\noindent
+Checkpoints are written every five generations. Alongside them we save the
+champion genome separately, because NEAT's own checkpoint stores the next
+generation's unevaluated children and would otherwise discard the evaluated
+best genome of the generation that just finished.
+
+\noindent
+A PDF reporter fires on the same interval and produces a visual summary using
+\texttt{matplotlib}, which works headless and therefore inside Docker. Each
+report covers fitness and topology at a high level, a diagram of the champion
+network, that champion's weight distribution, the worst genome for contrast, a
+species breakdown by age and fitness, and the fitness curve so far read back
+from the CSV.
+
+% ============================================================
+\section{Training Approaches}
+\label{sec:training-approaches}
+
+The three approaches below share everything described in
+Section~\ref{sec:common-architecture} and differ only in what a genome is
+evaluated on and how its fitness is aggregated.
+
+
+\subsection{Approach I: Level-Specific NEAT Training}
+\label{subsec:approach-specific}
+
+Our first experiment trains an independent population for each level:
+
+\begin{center}
+\begin{tabular}{@{}lcl@{}}
+Level 1-1 & $\rightarrow$ Population $\rightarrow$ Evolution $\rightarrow$ & Best Level 1-1 genome \\
+Level 2-1 & $\rightarrow$ Population $\rightarrow$ Evolution $\rightarrow$ & Best Level 2-1 genome \\
+Level 3-1 & $\rightarrow$ Population $\rightarrow$ Evolution $\rightarrow$ & Best Level 3-1 genome \\
+\end{tabular}
+\end{center}
+
+\noindent
+Each population sees exactly one level for its entire run, and we ran this
+separately for Levels 1-1, 2-1 and 3-1. The question we wanted to answer was
+whether NEAT can evolve a specialised agent that maximises performance on an
+individual level, and it can. This gives us a specialist baseline: an upper
+bound on what is achievable when generalisation is not required at all.
+
+\subsubsection{Fitness Function}
+
+The scoring here is a speedrun fitness. It rewards distance and velocity,
+rewards level completion heavily with a time bonus on top, and penalises
+death:
+
+\begin{equation}
+    F_{\text{level}} = \max\!\left(0.001,\;
+        X_{\max} + 5\,V + B_{c} - 50\,N_{d} \right)
+    \label{eq:fitness-level}
+\end{equation}
+
+\noindent
+where $X_{\max}$ is the furthest point Mario reached, $N_{d}$ the number of
+deaths, and $V$ his average speed in distance per second,
+
+\begin{equation}
+    V = \frac{X_{\max}}{f / 60}
+    \label{eq:velocity}
+\end{equation}
+
+\noindent
+with $f$ the frames elapsed and 60 the frame rate. The completion bonus is
+paid only when the flagpole is reached,
+
+\begin{equation}
+    B_{c} =
+    \begin{cases}
+        2000 + 2\,(F_{\max} - f), & \text{level completed} \\
+        0, & \text{otherwise}
+    \end{cases}
+    \label{eq:completion-level}
+\end{equation}
+
+\noindent
+where $F_{\max}$ is the episode frame cap. The death penalty applies only when
+the level was not completed, so the two branches are mutually exclusive. The
+whole expression is floored at $0.001$ because NEAT's reproduction requires
+positive fitness values.
+
+\noindent
+The velocity coefficient of 5 is what makes this a speedrun objective rather
+than a distance objective. At that weight a genome finishing the same stretch
+faster gains meaningfully, which is the core signal we wanted, and the
+completion bonus of 2000 sits far above any distance a genome could accumulate
+without finishing, so reaching the flagpole always dominates.
+
+\subsubsection{Discussion}
+
+The advantage is depth. A population that only ever sees one layout can commit
+entirely to it and learns that specific sequence of obstacles thoroughly. The
+disadvantage is that this is close to memorisation: the resulting genome
+performs poorly on any level it was not trained on, because nothing in its
+training rewarded behaviour that transfers, and we end up with a separate
+genome per level rather than one agent that plays the game. This is the same
+limitation reported for MarI/O~\cite{sethbling2015}, and reproducing it
+deliberately gave us a reference point for judging the other two approaches.
+
+\subsection{Approach II: Multi-Level Generalised NEAT Training}
+\label{subsec:approach-multilevel}
+
+The second approach changes what a genome must do before it is scored. Rather
+than one genome per level, a single genome plays every level in the training
+set and receives one combined fitness:
+
+\begin{center}
+\begin{tabular}{c}
+Genome \\
+$\downarrow$ \\
+\begin{tabular}{@{}ccc@{}}
+Level 1-1 & Level 2-1 & Level 4-1 \\
+$\downarrow$ & $\downarrow$ & $\downarrow$ \\
+Fitness & Fitness & Fitness \\
+\end{tabular} \\
+$\downarrow$ \\
+Weighted mean of normalised fitness \\
+$\downarrow$ \\
+Genome fitness \\
+$\downarrow$ \\
+Evolution \\
+\end{tabular}
+\end{center}
+
+\noindent
+The methodological point is that the same genome must perform across several
+levels before any fitness is assigned to it. Selection therefore favours
+genomes that are consistently competent rather than genomes that are
+exceptional on one layout and helpless elsewhere, which is exactly the failure
+mode of Approach I. This approach exists to investigate generalisation
+directly. Because each level is an independent episode, the evaluations are
+run in parallel across cores.
+
+\subsubsection{State Variables}
+
+The guards in this fitness function are defined over quantities tracked frame
+by frame during an episode, so we state them first. Mario's horizontal
+position at frame $t$ is assembled from two RAM bytes,
+
+\begin{equation}
+    X_t = 256\,P_t + S_t\,, \qquad
+    X_{\max} = \max_{0 \leq t \leq T} X_t
+    \label{eq:mario-x}
+\end{equation}
+
+\noindent
+where $P_t$ is the page byte and $S_t$ the sub-position byte. The stagnation
+counter records consecutive frames without new forward progress,
+
+\begin{equation}
+    s_t =
+    \begin{cases}
+        0, & X_t > X_{\max,\,t-1} \\
+        s_{t-1} + 1, & X_t \leq X_{\max,\,t-1}
+    \end{cases}
+    \label{eq:stagnation}
+\end{equation}
+
+\noindent
+and an episode is abandoned once $s_t$ exceeds 300 frames. Horizontal speed is
+stored as a signed byte and recovered as
+
+\begin{equation}
+    v_t =
+    \begin{cases}
+        V_t, & V_t \leq 127 \\
+        V_t - 256, & V_t > 127
+    \end{cases}
+    \label{eq:speed}
+\end{equation}
+
+\noindent
+which gives the speed-violation flag
+
+\begin{equation}
+    V_{\text{viol}} = \mathbf{1}\!\left[\, \exists\, t:\; V_t = \mathtt{0xD8} \,\right]
+    \label{eq:violation}
+\end{equation}
+
+\noindent
+Once set, this remains true for the rest of the episode and the run is scored
+as a death. Deaths are the drop in the lives counter,
+$N_{d} = \max(0,\, L_0 - L_T)$, and completion is
+$C = \mathbf{1}[\,F_T = 3\,]$, where $F_T$ is the float-state byte that reads 3
+on the flagpole.
+
+\subsubsection{Fitness Function}
+
+Raw pixel distance is not comparable between levels of different lengths, so
+distance is expressed as a fraction of the level's own length,
+
+\begin{equation}
+    P = \frac{X_{\text{credited}}}{L}
+    \label{eq:progress-fraction}
+\end{equation}
+
+\noindent
+where $L$ is the level length and $X_{\text{credited}}$ is the distance
+travelled excluding any ground covered while a scripted recovery maneuver was
+driving. The fitness for one level is then
+
+\begin{equation}
+    F_{\text{norm}} = \max\!\left(0.001,\;
+        1000\,P + V_{b} + J_{b} + B_{c}' - D_{p} \right)
+    \label{eq:fitness-norm}
+\end{equation}
+
+\noindent
+with the velocity bonus gated and capped,
+
+\begin{equation}
+    V_{b} =
+    \begin{cases}
+        \min\!\left(500,\; 500\,\dfrac{P}{f/60}\right), & P \geq 0.05 \\[6pt]
+        0, & \text{otherwise}
+    \end{cases}
+    \label{eq:velocity-bonus}
+\end{equation}
+
+\noindent
+a small bounded reward for jumping while stuck,
+$J_{b} = \min(4,\; 0.02\,j)$ where $j$ counts airborne frames while pinned, a
+completion bonus scaled by the share of distance the genome covered unaided,
+
+\begin{equation}
+    B_{c}' = C \cdot E \left( 300 + 200\,\frac{F_{\max} - f}{F_{\max}} \right),
+    \qquad
+    E = 1 - \frac{X_{\text{assisted}}}{X_{\max}}
+    \label{eq:completion-norm}
+\end{equation}
+
+\noindent
+and a proportional death penalty $D_{p}$ removing half the accumulated fitness
+rather than a flat amount.
+
+\noindent
+Almost every term here is bounded, and that is deliberate. Because these
+per-level scores are averaged, a single unbounded term on one level would let
+that level dominate the mean. Three of the bounds came from watching specific
+failures. The velocity gate exists because progress per second grows without
+limit as an episode shortens, so before it a genome dying at frame 30 scored as
+much velocity as one that ran a third of the level, and the fastest way to look
+fast was to barely move and stop. The jump reward is capped below the value of
+one tile of real progress so it can never outbid advancing, but it exists at
+all because two genomes pinned at the same pipe were otherwise indistinguishable
+and selection had nothing to work with. The death penalty is proportional
+because a flat one collapsed every early genome onto the floor value and erased
+the gradient in generation 0 entirely.
+
+\subsubsection{Level Weighting}
+
+We weight the levels rather than averaging them flat:
+
+\begin{equation}
+    F_{\text{genome}} = \frac{\sum_{l} w_{l} F_{\text{norm},\,l}}{\sum_{l} w_{l}}
+    \label{eq:weighted-mean}
+\end{equation}
+
+\noindent
+Once a level is reliably solved it stops carrying information about which
+genome is better, and giving it equal say lets it dominate a score that should
+be driven by the levels still unsolved. In our runs Level 4-1 was solved well
+before the others, so we set $w = 0.4$ for it while leaving Levels 1-1 and 2-1
+at $w = 1.0$, with Level 2-1 being the real bottleneck.
+
+\subsection{Approach III: Moment-Based NEAT Training}
+\label{subsec:approach-moments}
+
+The third approach changes the starting condition of evaluation itself, and it
+is the one we took furthest. It follows the training scheme proposed by
+Autin~\cite{autin2024}.
+
+\noindent
+The problem it addresses is structural. When every evaluation starts at the
+opening frame of a level, the population practises the first stretch on every
+episode of every generation, while the difficult section halfway through is
+reached only by the few genomes already good enough to get there. Evolutionary
+pressure is spent overwhelmingly on ground the population has already mastered.
+
+\noindent
+To address this we first collected a library of mid-level situations, which we
+refer to as moments, and evaluated genomes starting from those rather than from
+a single fixed opening state:
+
+\begin{center}
+\begin{tabular}{c}
+Scout gameplay \\
+$\downarrow$ \\
+State collection \\
+$\downarrow$ \\
+Moment dataset (Moment 1 $\ldots$ Moment $N$) \\
+$\downarrow$ \\
+NEAT population \\
+$\downarrow$ \\
+Each genome evaluated on every moment \\
+$\downarrow$ \\
+Aggregate fitness \\
+$\downarrow$ \\
+Selection and next generation \\
+\end{tabular}
+\end{center}
+
+\subsubsection{Collecting the Moments}
+
+A moment is a snapshot of emulator state taken partway through a level, which
+can be reloaded to drop Mario directly into that situation: halfway through the
+pipe sequence in 2-1, mid-descent onto an enemy, partway up the stairs in 3-1.
+Autin~\cite{autin2024} built this dataset by playing the game by hand and
+saving states at interesting points. That part of the method is not
+reproducible, since it is hours of one person's time at a keyboard and a second
+attempt would produce a different dataset, so we replaced the human with a
+scripted scout.
+
+\noindent
+The scout is not trained and is never scored. Its only job is to walk each
+level so the collector can snapshot the emulator every 150 pixels of forward
+progress. We gave it the same $16 \times 13$ tile grid the networks see rather
+than letting it react to raw position, because a scout that simply holds RIGHT
+and jumps when progress stalls is reacting after the fact and dies at the first
+enemy. Reading the grid lets it look ahead instead, and it means the moments
+are sampled from states a trained genome could plausibly encounter.
+
+\noindent
+We deliberately kept the scout mediocre. A scout that played each level
+optimally would only ever sample the optimal path, and the dataset would
+inherit that bias; some clumsiness means it spends time in awkward positions,
+which is where the interesting moments are.
+
+\noindent
+Collection runs in waves, because the scout dies well before the flagpole on
+the harder levels. The first wave plays from the level's start, and each later
+wave restarts from the furthest moment already banked and continues from there,
+pushing the frontier deeper. The scout never clears the 2-1 pipes, but it does
+not need to: reloading a state past them and playing on is enough to sample
+what lies beyond. Our dataset holds 57 moments across Levels 1-1, 2-1, 3-1 and
+4-1.
+
+\subsubsection{Per-Moment Fitness}
+
+Each moment is scored with the function given by Autin~\cite{autin2024}. For
+moment $i$,
+
+\begin{equation}
+    F_{i} = \left( M_{\text{end},i} - M_{\text{start},i} \right)
+            - 0.25\,t_{i} + S_{i} + B_{\text{goal},i} - P_{\text{fail},i}
+    \label{eq:fitness-moment-single}
+\end{equation}
+
+\noindent
+where $M_{\text{end},i} - M_{\text{start},i}$ is the distance travelled from
+where the moment dropped Mario in, $t_i$ the frames used, $S_i$ a speed bonus,
+$B_{\text{goal},i} = 1000$ if the flagpole is reached and 0 otherwise, and
+$P_{\text{fail},i} = 50$ charged when the moment ends without covering its
+span.
+
+\noindent
+Several details here matter. Distance is measured from the moment's own
+starting position rather than from the level's origin, so a moment beginning
+deep in a level does not hand out unearned progress. It is capped at a span of
+250 pixels, which is where we treat the moment as answered; without that bound
+a genome that clears its obstacle keeps running into the next moment's
+territory and is scored on ground another moment already covers. The frame
+penalty of $t/4$ rather than $t/2$ prioritises level progress over the speed at
+which it was made. The speed bonus counts every unit of progress made above
+walking pace twice. The failure penalty is small by design, since its job is
+only to separate "did not get there" from "got there slowly", not to overwhelm
+the progress term.
+
+\subsubsection{Aggregation I: Mean Across Moments}
+
+The genome's fitness is the mean of its per-moment scores across all $N$
+moments in the batch:
+
+\begin{equation}
+    F_{\text{mean}} = \frac{1}{N} \sum_{i=1}^{N}
+        \left[ \left( M_{\text{end},i} - M_{\text{start},i} \right)
+        - 0.25\,t_{i} + S_{i} + B_{\text{goal},i} - P_{\text{fail},i} \right]
+    \label{eq:fitness-moment-mean}
+\end{equation}
+
+\noindent
+Every genome is evaluated on every moment, and this matters more than it
+appears to. If genomes instead played moments until they died, a hard moment
+landing early in the shuffled order would end the run and the genome would
+score near zero regardless of its actual competence. Genomes poorly suited to
+one situation but strong elsewhere would then be eliminated by ordering luck,
+and the population would lose that knowledge. Averaging over the full batch
+removes the luck and asks a stable question: how well does this genome handle a
+typical situation.
+
+\subsubsection{Aggregation II: Spread Penalty}
+
+The mean has a weakness. It rewards a high average, but says nothing about
+consistency, so a genome that is excellent on most moments and hopeless on a
+few can outscore one that is uniformly competent. The second scheme penalises
+that inconsistency:
+
+\begin{equation}
+    F_{\text{spread}} = \mu_{F} - \lambda\,\sigma_{F}
+    \label{eq:fitness-spread}
+\end{equation}
+
+\noindent
+where
+
+\begin{equation}
+    \mu_{F} = \frac{1}{N} \sum_{i=1}^{N} F_{i}\,,
+    \qquad
+    \sigma_{F} = \sqrt{\frac{1}{N} \sum_{i=1}^{N}
+        \left( F_{i} - \mu_{F} \right)^{2}}
+    \label{eq:mean-std}
+\end{equation}
+
+\noindent
+and $F_i$ is the full per-moment score from
+Equation~\ref{eq:fitness-moment-single}. The difference is easiest to see with
+an example. A genome scoring $900, 900, 900, 100$ has a mean of 700, while one
+scoring $650, 650, 650, 650$ has a mean of 650. The mean scheme prefers the
+first; the spread scheme can prefer the second, because the first genome's
+variance is large and the penalty charges for it. In practice this makes the
+trade of selling performance on one level to gain slightly more on another
+unprofitable, since that trade always widens the spread.
+
+\noindent
+We also apply this per level rather than per moment where the levels are
+unevenly represented. Our dataset has 21 moments for Level 1-1 but only 7 for
+Level 2-1, so a flat mean over moments lets a level contribute in proportion to
+how many moments it happens to have. Averaging within each level first, then
+combining the per-level scores, removes that imbalance.
+
+\noindent
+This variant has a known weakness we should state plainly. A uniformly poor
+genome has a standard deviation near zero and so escapes the penalty entirely.
+Early in a run, when almost every genome scores near zero, the term is close to
+constant across the population and contributes little selection pressure, so
+evolution proceeds effectively on the mean until real differences appear. We
+kept both aggregation schemes and ran them separately rather than replacing one
+with the other, so the two can be compared directly.
