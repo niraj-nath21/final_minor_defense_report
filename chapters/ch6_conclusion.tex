@@ -6,24 +6,265 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
+This project set out to determine whether NEAT can evolve a competent agent for
+Super Mario Bros.\ on ordinary consumer hardware, without hand-crafted
+heuristics and without the cost of a pixel-based deep reinforcement learning
+pipeline. It can, and the objective stated in
+Section~\ref{sec:objective} was met: the agent reads its state directly from
+emulator RAM, reduces it to a $16 \times 13$ tile grid of 208 input features,
+and trains entirely on the CPU. That reduction, roughly 295 times smaller than
+the $256 \times 240$ raw frame, is what made every result in this report
+reachable on a laptop rather than a cluster.
 
+\noindent
+The work was carried out as three training strategies run through one shared
+pipeline, so that any difference in outcome is attributable to the training
+strategy rather than to how the agent perceives the game. Each approach
+answered a question and exposed the limitation that motivated the next.
+
+\noindent
+Approach I established the baseline. Training a separate population per level
+solved Level 1-1 outright, with the population reaching the flagpole at
+generation 500 and holding it for the remaining 600 generations, while Levels
+3-1 and 2-1 reached 90.7\% and 75.3\% of their length respectively. The
+structural traces confirm that NEAT complexified as intended: every run began
+with zero hidden nodes and 1248 enabled connections, and ended with hidden
+structure accumulated and the dense initial wiring pruned to between 100 and
+320 connections. The agent did not simply grow; it discarded most of what it
+started with and replaced a small part of it with useful internal structure.
+The cost of this approach is that its genomes are specialists that do not
+transfer, which reproduces the limitation reported for
+MarI/O~\cite{sethbling2015}.
+
+\noindent
+Approach II removed that specialisation by requiring one genome to play several
+levels before receiving a single combined score. Its champions carried around
+150 hidden nodes against the 8 to 50 seen in level-specific runs, which is
+consistent with a policy that must encode responses to situations arising on
+only some of the levels. The species trace also showed the population
+repeatedly converging onto a single strategy and having to be rebuilt by the
+diversity reset mechanism, indicating that the multi-level objective is
+substantially harder to satisfy than the single-level one.
+
+\noindent
+Approach III changed what a genome practises rather than what it is scored on,
+evaluating from a library of 57 mid-level moments so that difficult sections
+are trained as often as the opening stretch. This exposed a problem the
+combined score of Approach II had concealed. Under a plain mean, consistency
+across levels is not actually selected for: the champion scored 190.2 on Level
+1-1 but only 88.5 on Level 2-1, a spread of 101.7, because a large gain on an
+easy level fully compensates a large loss on a hard one. The spread penalty
+introduced in this project, which subtracts a multiple of the cross-level
+standard deviation from the mean, corrected this. It reduced the spread to 52.1
+and cut the cross-level standard deviation from an average of 261 to 24 over
+the shared evaluation window, a reduction of roughly eleven times. It did so by
+trading peak performance on the easy levels for competence on the hard one,
+raising Level 2-1 from 88.5 to 125.7 while Level 1-1 fell from 190.2 to 143.8,
+which is precisely the behaviour it was designed to produce. The mean distance
+covered per moment supports the same reading, rising from 163 to 177 under the
+spread penalty while falling from 230 to 188 under the mean.
+
+\noindent
+The most useful finding of this project is not a score but a diagnosis. Nearly
+every failure encountered here was located in the fitness function rather than
+in the network or the evolutionary algorithm. The specialist that would not
+transfer, the population that converged onto a single strategy, and the mean
+that quietly traded away a level were all cases of the agent optimising exactly
+what it had been asked to optimise. The corrections that resolved them were
+changes to the question being asked, not to the learner answering it. For a
+neuroevolutionary system in a domain of this kind, the design of the objective
+is the substantive engineering problem, and the topology search will faithfully
+exploit any weakness left in it.
 
 \section{Recommendations}
 \label{sec:recommendations}
 
+The following recommendations follow from what this project observed and are
+directed at anyone extending this work or applying NEAT to a comparable
+control domain.
+
 \begin{itemize}
-    \item
-    \item
-    \item
+    \item \textbf{Treat the fitness function as the primary object of design.}
+    Every substantive failure documented in this report originated there.
+    Before attributing poor performance to the algorithm or to insufficient
+    training, verify that the objective actually rewards the behaviour
+    intended, since evolutionary search will exploit any discrepancy between
+    the two.
+
+    \item \textbf{Bound individual fitness terms whenever scores are
+    aggregated.} An unbounded term on one level or one moment will dominate a
+    mean and silently determine selection. The velocity gate, the capped jump
+    reward and the proportional death penalty described in
+    Section~\ref{subsec:approach-multilevel} were each introduced in response
+    to an observed degenerate behaviour, and each was necessary.
+
+    \item \textbf{Do not aggregate multi-task fitness with a plain mean.} The
+    comparison in Section~\ref{sec:results-approach-3} shows a plain mean
+    permitting an order-of-magnitude larger inconsistency across levels than a
+    spread-penalised alternative. Where uniform competence is the goal, the
+    aggregation must charge explicitly for variance.
+
+    \item \textbf{Prefer a compact structured state representation to raw
+    pixels where the environment exposes its state.} Reading RAM removed the
+    need for a convolutional front end whose only function would have been to
+    recover information the game already stores explicitly, and it is the
+    single decision most responsible for this project running without a GPU.
+
+    \item \textbf{Distribute evaluation across the state space rather than the
+    episode start.} Starting every episode at the opening frame spends
+    evolutionary pressure overwhelmingly on ground the population has already
+    mastered. Moment-based evaluation addresses this directly and is
+    recommended for any level-structured environment.
+
+    \item \textbf{Log per-generation metrics and checkpoint champions
+    separately from the population.} Runs here lasted hours and reached 4054
+    generations. Every figure in Chapter~\ref{ch:result-discussion} was drawn
+    from the CSV logs, and a run whose history is lost must be repeated in
+    full.
+
+    \item \textbf{Judge progress on behaviour, not on the score.} Fitness under
+    one formulation is not comparable to fitness under another. Distance
+    covered, network structure and cross-level consistency retained their
+    meaning across all three approaches and were the only measures on which
+    they could honestly be compared.
 \end{itemize}
-
-
 
 \section{Limitations and Future Work}
 \label{sec:limitations-future-work}
 
+\subsection{Limitations}
+\label{subsec:limitations}
+
+The results in this report should be read with the following constraints in
+mind.
+
 \begin{itemize}
-    \item
-    \item
-    \item
+    \item \textbf{Limited training time and compute.} All training was confined
+    to the CPU on consumer hardware, which bounded how far any run could be
+    taken. Approach II was analysed over a window of 154 generations and
+    Approach III over 161 and 87 generations, all considerably shorter than the
+    level-specific runs. Several of the trends reported here are therefore
+    established over shorter horizons than would be ideal.
+
+    \item \textbf{Incomplete level coverage.} Only Level 1-1 was solved
+    outright. Level 3-1 reached 90.7\% of its length and Level 2-1 stalled at
+    75.3\% with no improvement over the final 200 generations of its run, so
+    the agent does not complete the majority of the levels it was trained on.
+
+    \item \textbf{The comparison in Approach III is not a paired run from
+    scratch.} The spread penalty run covers 87 generations against the mean
+    scheme's 161 and resumes from an existing checkpoint rather than starting
+    fresh. The two are compared over the 87 generations they share. The
+    magnitude of the difference makes the conclusion secure, but a matched pair
+    of full runs would state it more firmly.
+
+    \item \textbf{Single runs per configuration.} Each configuration was run
+    once. Evolutionary algorithms are stochastic and outcomes vary between
+    seeds, so no confidence interval can be placed on any figure reported here
+    and the results should be read as single observations rather than as
+    means over repeated trials.
+
+    \item \textbf{The spread penalty does not constrain uniformly poor
+    genomes.} A genome that performs equally badly everywhere has a standard
+    deviation near zero and escapes the penalty. Early in a run the term is
+    close to constant across the population and contributes little selection
+    pressure, so evolution proceeds effectively on the mean until genuine
+    differences emerge.
+
+    \item \textbf{The moment dataset is small and scout-dependent.} The library
+    holds 57 moments across four levels, unevenly distributed, with 21 for
+    Level 1-1 but only 7 for Level 2-1. The moments are sampled by a scripted
+    scout, so the dataset reflects the states that scout happened to reach and
+    inherits whatever bias its policy carries.
+
+    \item \textbf{Diminishing returns within a run.} By 20\% of each Approach I
+    run, Level 1-1 had already improved 6.7-fold and Level 2-1 5.8-fold over
+    their generation-0 distances, with the remaining 80\% contributing
+    comparatively little. Level 3-1 ran nearly four times as long as Level 1-1
+    and finished with a smaller relative gain, so additional generations alone
+    do not reliably convert into proportionate improvement.
+
+    \item \textbf{Restricted state representation.} The tile grid covers only
+    the current screen and encodes four values per cell. The agent has no
+    memory of what has passed off-screen, no lookahead beyond the viewport, and
+    no access to powerup state, score or the timer. Velocity is read for
+    scoring but never given to the network.
+
+    \item \textbf{Narrow evaluation scope.} Work was limited to four levels of
+    a single game. Generalisation to unseen levels was never measured on a
+    held-out set, and no comparison against a DRL baseline such as DQN or PPO
+    was implemented, so the efficiency argument for neuroevolution rests on
+    the literature rather than on a controlled experiment conducted here.
+\end{itemize}
+
+\subsection{Future Work}
+\label{subsec:future-work}
+
+\begin{itemize}
+    \item \textbf{Longer training runs on stronger hardware.} The most direct
+    extension is to run each configuration for substantially more generations
+    with a larger population. Level 2-1 and Level 3-1 both ended their runs
+    short of completion, and Approaches II and III were analysed over windows
+    of well under 200 generations. Parallelising evaluation across more cores,
+    or across several machines, would allow the multi-level and moment-based
+    approaches to be taken to the depth Approach I reached.
+
+    \item \textbf{Systematic hyperparameter optimisation.} The NEAT
+    configuration used here, including the population size of 150, the
+    mutation rates, the speciation threshold and the survival proportion, was
+    fixed early and not tuned. So was the spread penalty coefficient
+    $\lambda$, which directly controls the trade between peak performance and
+    consistency. A search over these values would establish how much of the
+    remaining gap is a limitation of the method and how much is an untuned
+    configuration.
+
+    \item \textbf{Repeated runs with multiple seeds.} Running each
+    configuration several times under different random seeds and reporting
+    means with confidence intervals would replace the single observations in
+    this report with statistically defensible claims.
+
+    \item \textbf{A larger and better-balanced moment dataset.} Expanding
+    beyond 57 moments and equalising coverage across levels would reduce the
+    dependence on the scout's particular trajectory. Sampling moments from the
+    trajectories of trained genomes as they improve, rather than from a fixed
+    scripted scout, would keep the dataset aligned with the states the
+    population actually encounters.
+
+    \item \textbf{Adaptive and curriculum-based aggregation.} The spread
+    penalty is currently applied with a fixed coefficient throughout. Given
+    that it contributes little pressure early in a run, scheduling $\lambda$ to
+    increase as the population improves would concentrate the consistency
+    pressure where it is effective. Related to this, weighting moments by
+    difficulty, or promoting harder moments as easier ones are mastered, would
+    build an explicit curriculum.
+
+    \item \textbf{Held-out generalisation testing.} Reserving levels that never
+    appear in training and evaluating champions on them would measure
+    generalisation directly, rather than inferring it from cross-level
+    consistency on the training set.
+
+    \item \textbf{A richer state representation.} Adding a limited history of
+    recent frames, extending the grid beyond the current viewport, or including
+    powerup state would give the network information it presently lacks.
+    Whether the additional inputs justify the enlarged search space is an
+    empirical question worth answering.
+
+    \item \textbf{Comparison against a DRL baseline.} Implementing DQN or PPO
+    on the same RAM-derived state representation would allow the efficiency
+    claim motivating this project to be tested directly, comparing sample
+    efficiency, wall-clock training time and final performance under identical
+    conditions.
+
+    \item \textbf{Novelty search and quality-diversity methods.} The plateaus
+    visible in every Approach I run, most notably Level 3-1 sitting at roughly
+    74\% from generation 1500 to generation 3000, are the characteristic
+    signature of a population trapped in a local optimum. Novelty
+    search~\cite{lehman2011} rewards behavioural difference rather than
+    objective performance and is a natural candidate for escaping exactly this
+    situation.
+
+    \item \textbf{Extension to the full game and to other environments.}
+    Scaling from four levels to the complete set of levels, and subsequently to
+    other platforming titles, would test whether the approach generalises
+    beyond the specific game studied here.
 \end{itemize}

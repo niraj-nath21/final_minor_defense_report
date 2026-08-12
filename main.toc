@@ -73,13 +73,15 @@
 \contentsline {section}{\numberline {5.5}Discussion}{43}{section.5.5}%
 \contentsline {chapter}{\numberline {6}Conclusion and Recommendation}{44}{chapter.6}%
 \contentsline {section}{\numberline {6.1}Conclusion}{44}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Recommendations}{44}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Limitations and Future Work}{44}{section.6.3}%
-\contentsline {chapter}{References}{45}{section*.29}%
-\contentsline {chapter}{Appendix}{47}{section*.31}%
-\contentsline {section}{A. User Interface Screenshots}{47}{section*.32}%
-\contentsline {subsection}{A1.}{47}{section*.33}%
-\contentsline {subsection}{A2. }{47}{section*.35}%
-\contentsline {subsection}{A3. }{48}{section*.37}%
-\contentsline {subsection}{A4. }{48}{section*.39}%
-\contentsline {subsection}{A5. }{49}{section*.41}%
+\contentsline {section}{\numberline {6.2}Recommendations}{45}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Limitations and Future Work}{46}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Limitations}{46}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Future Work}{48}{subsection.6.3.2}%
+\contentsline {chapter}{References}{50}{section*.29}%
+\contentsline {chapter}{Appendix}{52}{section*.31}%
+\contentsline {section}{A. User Interface Screenshots}{52}{section*.32}%
+\contentsline {subsection}{A1.}{52}{section*.33}%
+\contentsline {subsection}{A2. }{52}{section*.35}%
+\contentsline {subsection}{A3. }{53}{section*.37}%
+\contentsline {subsection}{A4. }{53}{section*.39}%
+\contentsline {subsection}{A5. }{54}{section*.41}%
