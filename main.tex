@@ -4,12 +4,15 @@
 % ============================================================
 \documentclass[12pt, a4paper, oneside]{report}
 
+% All packages (inputenc, geometry, graphicx, float, subcaption, amsmath,
+% hyperref, url, ...) are loaded in preamble.tex. Loading them again here
+% raises an "Option clash" error, because the options differ.
 \input{preamble}
 
 % ============================================================
 %  PROJECT METADATA  --  fill these in; they feed the title page
 % ============================================================
-\newcommand{\projecttitle}{Project Title Goes Here}
+\newcommand{\projecttitle}{NEAT IMPLEMENTATION FOR SUPER MARIO BROS FOR SPEED-RUNNING.}
 \newcommand{\universityname}{TRIBHUVAN UNIVERSITY}
 \newcommand{\institutename}{INSTITUTE OF ENGINEERING}
 \newcommand{\collegename}{KHWOPA COLLEGE OF ENGINEERING}
@@ -18,20 +21,20 @@
 \newcommand{\degreename}{BACHELOR OF COMPUTER ENGINEERING}
 
 % Team members -- name / roll number
-\newcommand{\memberone}{Member One Name}      \newcommand{\rollone}{KCE0XXBCT0XX}
-\newcommand{\membertwo}{Member Two Name}      \newcommand{\rolltwo}{KCE0XXBCT0XX}
-\newcommand{\memberthree}{Member Three Name}  \newcommand{\rollthree}{KCE0XXBCT0XX}
-\newcommand{\memberfour}{Member Four Name}    \newcommand{\rollfour}{KCE0XXBCT0XX}
+\newcommand{\memberone}{Niraj Nath}      \newcommand{\rollone}{KCE080BCT016}
+\newcommand{\membertwo}{Rohan Singh}      \newcommand{\rolltwo}{KCE080BCT033}
+\newcommand{\memberthree}{Shailaj Dahal}  \newcommand{\rollthree}{KCE080BCT036}
+\newcommand{\memberfour}{Supriya Poudel}    \newcommand{\rollfour}{KCE080BCT042}
 
 % Supervisor / HOD / External examiner
-\newcommand{\supervisorname}{Er. Supervisor Name}
-\newcommand{\supervisordesignation}{Lecturer}
-\newcommand{\hodname}{Er. HOD Name}
-\newcommand{\externalname}{Er. External Examiner Name}
-\newcommand{\externaldesignation}{Senior Lecturer}
-\newcommand{\externalcollege}{External College Name}
+\newcommand{\supervisorname}{Dr. Ramesh Marikhu}
+\newcommand{\supervisordesignation}{CEO and Founder, Almonds A.I. Company Pvt. Ltd.}
+\newcommand{\hodname}{Er. Dinesh Gothe}
+\newcommand{\externalname}{Er. Manjil Karki}
+\newcommand{\externaldesignation}{Senior ML Engineer}
+\newcommand{\externalcollege}{coac GmbH Germany}
 
-\newcommand{\submissiondate}{Month, Year}
+\newcommand{\submissiondate}{August, 2026}
 
 % ============================================================
 \begin{document}
@@ -39,14 +42,15 @@
 % ------------------------------------------------------------
 %  FRONT MATTER  (roman numerals)
 % ------------------------------------------------------------
-% Title page and certificate carry no page number; the roman sequence
-% begins at the Copyright page, which is page i (as in the reference report).
-% hypertarget anchors are suppressed on these two pages so they cannot
+% The title page carries no page number; the roman sequence begins at the
+% Copyright page, which is page i (as in the reference report).
+% hypertarget anchors are suppressed on this page so they cannot
 % collide with the roman-numbered ones that follow.
+% The Certificate of Approval is produced and signed separately and is
+% therefore not included in this document.
 \begingroup
 \hypersetup{pageanchor=false}
 \input{frontmatter/titlepage}          % unnumbered
-\input{frontmatter/certificate}        % unnumbered
 \endgroup
 
 \clearpage

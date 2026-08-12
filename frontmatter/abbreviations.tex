@@ -2,14 +2,78 @@
 \frontchapter{List of Symbols and Abbreviation}
 
 % Keep entries in alphabetical order.
+\noindent\textbf{Abbreviations}
+\vspace{0.2cm}
+
 \begin{longtable}{@{}p{0.18\textwidth}p{0.75\textwidth}@{}}
-API   & Application Programming Interface \\
-CNN   & Convolutional Neural Network \\
+AI    & Artificial Intelligence \\
+CPU   & Central Processing Unit \\
+CSV   & Comma-Separated Values \\
 DFD   & Data Flow Diagram \\
+DQN   & Deep Q-Network \\
+DRL   & Deep Reinforcement Learning \\
+FSM   & Finite State Machine \\
 GPU   & Graphics Processing Unit \\
+KB    & Kilobyte \\
+NEAT  & NeuroEvolution of Augmenting Topologies \\
+NES   & Nintendo Entertainment System \\
+PDF   & Portable Document Format \\
+PPO   & Proximal Policy Optimization \\
 RAM   & Random Access Memory \\
-UI    & User Interface \\
-% Add your remaining abbreviations here, one per line, as: ABBR & Expansion \\
+RL    & Reinforcement Learning \\
+ROM   & Read-Only Memory \\
+\end{longtable}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Symbols}
+\vspace{0.2cm}
+
+\begin{longtable}{@{}p{0.18\textwidth}p{0.75\textwidth}@{}}
+$B_{c}$              & Completion bonus awarded on reaching the flagpole \\
+$B_{c}'$             & Completion bonus scaled by the unassisted share of distance \\
+$B_{\text{goal},i}$  & Goal bonus for moment $i$ \\
+$C$                  & Level completion indicator \\
+$D_{p}$              & Proportional death penalty \\
+$E$                  & Unassisted fraction of the distance covered \\
+$F_{\text{genome}}$  & Weighted mean fitness of a genome across levels \\
+$F_{i}$              & Per-moment fitness for moment $i$ \\
+$F_{\text{level}}$   & Level-specific speedrun fitness \\
+$F_{\max}$           & Episode frame cap \\
+$F_{\text{mean}}$    & Mean aggregation of per-moment fitness \\
+$F_{\text{norm}}$    & Normalised per-level fitness \\
+$F_{\text{spread}}$  & Spread-penalised fitness \\
+$F_{T}$              & Float-state byte, reading 3 on the flagpole \\
+$f$                  & Frames elapsed in an episode \\
+$J_{b}$              & Bounded jump bonus awarded while stuck \\
+$j$                  & Airborne frames accumulated while pinned \\
+$L$                  & Level length in pixels \\
+$L_{0}, L_{T}$       & Lives counter at the start and end of an episode \\
+$M_{\text{start},i}$ & Mario's position where moment $i$ begins \\
+$M_{\text{end},i}$   & Mario's position where moment $i$ ends \\
+$N$                  & Number of moments in an evaluation batch \\
+$N_{d}$              & Number of deaths in an episode \\
+$P$                  & Progress as a fraction of level length \\
+$P_{t}$              & Page byte of Mario's horizontal position at frame $t$ \\
+$P_{\text{fail},i}$  & Failure penalty for an unanswered moment \\
+$S_{i}$              & Speed bonus for moment $i$ \\
+$S_{t}$              & Sub-position byte of Mario's position at frame $t$ \\
+$s_{t}$              & Stagnation counter at frame $t$ \\
+$T$                  & Final frame index of an episode \\
+$t_{i}$              & Frames used on moment $i$ \\
+$V$                  & Average speed in distance per second \\
+$V_{b}$              & Gated and capped velocity bonus \\
+$V_{t}$              & Raw signed speed byte at frame $t$ \\
+$V_{\text{viol}}$    & Speed-violation flag \\
+$v_{t}$              & Recovered horizontal speed at frame $t$ \\
+$w_{l}$              & Weight assigned to level $l$ \\
+$X_{\text{assisted}}$ & Distance covered under a scripted recovery maneuver \\
+$X_{\text{credited}}$ & Distance credited to the genome, excluding assistance \\
+$X_{\max}$           & Furthest horizontal position reached \\
+$X_{t}$              & Mario's horizontal position at frame $t$ \\
+$\lambda$            & Spread penalty coefficient \\
+$\mu_{F}$            & Mean per-moment fitness \\
+$\sigma_{F}$         & Standard deviation of per-moment fitness \\
 \end{longtable}
 
 \clearpage

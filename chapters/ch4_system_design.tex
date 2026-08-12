@@ -9,38 +9,50 @@
 \subsection{Functional Requirements}
 \label{subsec:functional-requirements}
 
-\begin{itemize}
-    \item
-    \item
-    \item
-\end{itemize}
+The functional requirements for the prepared system are:
+
+\begin{enumerate}
+    \item The system must be able to capture game state in real time from
+    emulator RAM.
+
+    \item It must convert raw RAM coordinates into a compact spatial grid
+    suitable for NEAT.
+
+    \item It must evolve genomes through mutation, crossover, and speciation.
+
+    \item It must evaluate agent performance using a fitness function based on
+    horizontal progress and stagnation penalties.
+
+    \item It must log generation statistics and generate PDF reports
+    automatically.
+\end{enumerate}
 
 
 \subsection{Non-Functional Requirements}
 \label{subsec:non-functional-requirements}
 
-\begin{itemize}
-    \item
-    \item
-    \item
-\end{itemize}
+These are essential for the better performance and stability of the system. The
+points below focus on the non-functional requirements of the prepared system.
 
+\subsubsection{Reliability}
 
-% ============================================================
-\section{Context Diagram}
-\label{sec:context-diagram}
+The system should recover from interruptions through checkpointing and
+persistent CSV logs.
 
-% Level-0 view: the whole system as a single process, with all external
-% entities and the data flowing between them.
+\subsubsection{Maintainability}
 
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.85\textwidth]{context_diagram}
-\figplaceholder{7cm}{[ Context Diagram ]}
-\caption{Context Diagram}
-\label{fig:context-diagram}
-\end{figure}
+The system is broken down into modular sub-components such as the RAM scraper,
+spatial quantizer, NEAT engine, logging, and reporting modules.
 
+\subsubsection{Performance}
+
+The object detection equivalent in this project is low-latency state extraction
+and action injection, so the pipeline must keep inference overhead minimal.
+
+\subsubsection{Frame Rate and Throughput}
+
+For smooth operation, the system must support efficient frame-by-frame
+execution and rapid generation turnover during training.
 
 
 % ============================================================
@@ -52,8 +64,7 @@
 
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.85\textwidth]{dfd_level0}
-\figplaceholder{7cm}{[ DFD Level 0 ]}
+\includegraphics[width=0.95\textwidth]{dfd_level0}
 \caption{DFD Level 0}
 \label{fig:dfd-level-0}
 \end{figure}
@@ -64,8 +75,7 @@
 
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.9\textwidth]{dfd_level1}
-\figplaceholder{8cm}{[ DFD Level 1 ]}
+\includegraphics[width=0.92\textwidth]{dfd_level1}
 \caption{DFD Level 1}
 \label{fig:dfd-level-1}
 \end{figure}
@@ -76,10 +86,10 @@
 \section{Use Case Diagram}
 \label{sec:use-case-diagram}
 
+% Tall portrait image: constrained by height so it fits within the text block.
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.85\textwidth]{use_case_diagram}
-\figplaceholder{8cm}{[ Use Case Diagram ]}
+\includegraphics[height=0.78\textheight,width=\textwidth,keepaspectratio]{use_case_diagram}
 \caption{Use Case Diagram}
 \label{fig:use-case-diagram}
 \end{figure}
@@ -90,10 +100,10 @@
 \section{Class Diagram}
 \label{sec:class-diagram}
 
+% Tall portrait image: constrained by height so it fits within the text block.
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.9\textwidth]{class_diagram}
-\figplaceholder{9cm}{[ Class Diagram ]}
+\includegraphics[height=0.8\textheight,width=\textwidth,keepaspectratio]{class_diagram}
 \caption{Class Diagram}
 \label{fig:class-diagram}
 \end{figure}
@@ -106,9 +116,8 @@
 
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.9\textwidth]{sequence_diagram}
-\figplaceholder{9cm}{[ Sequence Diagram ]}
-\caption{Sequence Diagram}
+\includegraphics[width=\textwidth]{sequence_diagram}
+\caption{Sequence Diagram of a Single Frame Evaluation}
 \label{fig:sequence-diagram}
 \end{figure}
 
@@ -118,10 +127,10 @@
 \section{Component Diagram}
 \label{sec:component-diagram}
 
+% Tall portrait image: constrained by height so it fits within the text block.
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.9\textwidth]{component_diagram}
-\figplaceholder{8cm}{[ Component Diagram ]}
+\includegraphics[height=0.82\textheight,width=\textwidth,keepaspectratio]{component_diagram}
 \caption{Component Diagram}
 \label{fig:component-diagram}
 \end{figure}
@@ -134,8 +143,7 @@
 
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.85\textwidth]{deployment_diagram}
-\figplaceholder{8cm}{[ Deployment Diagram ]}
+\includegraphics[width=0.85\textwidth]{deployment_diagram}
 \caption{Deployment Diagram}
 \label{fig:deployment-diagram}
 \end{figure}
@@ -146,44 +154,13 @@
 \section{Gantt Chart}
 \label{sec:gantt-chart}
 
-% Option A -- drop in an image exported from a planning tool:
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=\textwidth]{gantt_chart}
-% \caption{Project Gantt Chart}
-% \label{fig:gantt-chart}
-% \end{figure}
+The project schedule was tracked using Asana as a Kanban board, organizing
+tasks into sprints. Figure~\ref{fig:gantt-chart} illustrates the timeline of
+tasks spanning the entire duration of the project.
 
-% Option B -- draw it in LaTeX with pgfgantt (skeleton below).
-% Edit the month labels and bar positions; add one \ganttbar line per task.
 \begin{figure}[H]
 \centering
-\resizebox{\textwidth}{!}{%
-\begin{ganttchart}[
-    hgrid,
-    vgrid,
-    x unit=1.1cm,
-    y unit title=0.7cm,
-    y unit chart=0.6cm,
-    title height=1,
-    bar height=0.5,
-    bar/.append style={fill=gray!40},
-    group/.append style={fill=gray!70},
-    milestone/.append style={fill=black}
-]{1}{8}
-    % ---- timeline header: relabel these to your actual months ----
-    \gantttitle{Project Timeline}{8} \\
-    \gantttitlelist{1,...,8}{1} \\
-
-    % ---- tasks: \ganttbar{Task name}{start}{end} ----
-    \ganttbar{}{1}{2} \\
-    \ganttbar{}{2}{3} \\
-    \ganttbar{}{3}{5} \\
-    \ganttbar{}{5}{6} \\
-    \ganttbar{}{6}{7} \\
-    \ganttbar{}{7}{8} \\
-\end{ganttchart}%
-}
+\includegraphics[width=\textwidth]{gantt_chart}
 \caption{Project Gantt Chart}
 \label{fig:gantt-chart}
 \end{figure}

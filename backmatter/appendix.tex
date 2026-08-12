@@ -12,64 +12,197 @@
 % LaTeX's \appendix numbering. Keeping the same convention here.
 
 \phantomsection
-\section*{A. User Interface Screenshots}
-\addcontentsline{toc}{section}{A. User Interface Screenshots}
+\section*{A. Project Management and Development Screenshots}
+\addcontentsline{toc}{section}{A. Project Management and Development Screenshots}
 
 \phantomsection
-\subsection*{A1. }
-\addcontentsline{toc}{subsection}{A1.}
+\subsection*{A1. Asana Kanban Board}
+\addcontentsline{toc}{subsection}{A1. Asana Kanban Board}
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.9\textwidth]{ui_screenshot_1}
-\figplaceholder{7cm}{[ Screenshot A1 ]}
-\caption{}
-\label{fig:ui-a1}
+\includegraphics[width=\textwidth]{asana_board}
+\caption{Asana Kanban board used to manage the Agile sprints}
+\label{fig:asana-board}
 \end{figure}
 
 
 \phantomsection
-\subsection*{A2. }
-\addcontentsline{toc}{subsection}{A2. }
+\subsection*{A2. Asana Task Detail}
+\addcontentsline{toc}{subsection}{A2. Asana Task Detail}
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.9\textwidth]{ui_screenshot_2}
-\figplaceholder{7cm}{[ Screenshot A2 ]}
-\caption{}
-\label{fig:ui-a2}
+\includegraphics[height=0.72\textheight,width=\textwidth,keepaspectratio]{asana_task}
+\caption{Task detail view showing assignee, subtasks and activity history}
+\label{fig:asana-task}
 \end{figure}
 
 
 \phantomsection
-\subsection*{A3. }
-\addcontentsline{toc}{subsection}{A3. }
+\subsection*{A3. Emulator Snapshot}
+\addcontentsline{toc}{subsection}{A3. Emulator Snapshot}
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.9\textwidth]{ui_screenshot_3}
-\figplaceholder{7cm}{[ Screenshot A3 ]}
-\caption{}
-\label{fig:ui-a3}
+\includegraphics[width=0.62\textwidth]{ram_emulator}
+\caption{Emulator snapshot of the rendered game frame}
+\label{fig:ram-emulator}
 \end{figure}
 
 
 \phantomsection
-\subsection*{A4. }
-\addcontentsline{toc}{subsection}{A4. }
+\subsection*{A4. Raw WRAM Tilemap}
+\addcontentsline{toc}{subsection}{A4. Raw WRAM Tilemap}
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.9\textwidth]{ui_screenshot_4}
-\figplaceholder{7cm}{[ Screenshot A4 ]}
-\caption{}
-\label{fig:ui-a4}
+\includegraphics[width=0.95\textwidth]{ram_hex}
+\caption{Raw WRAM tilemap read from emulator memory, shown as hex values}
+\label{fig:ram-hex}
 \end{figure}
 
 
 \phantomsection
-\subsection*{A5. }
-\addcontentsline{toc}{subsection}{A5. }
+\subsection*{A5. Quantized Input Grid}
+\addcontentsline{toc}{subsection}{A5. Quantized Input Grid}
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.9\textwidth]{ui_screenshot_5}
-\figplaceholder{7cm}{[ Screenshot A5 ]}
-\caption{}
-\label{fig:ui-a5}
+\includegraphics[width=0.95\textwidth]{ram_quantized}
+\caption{The $16 \times 13$ quantized grid supplied to the network, with Mario
+marked M and an enemy marked E}
+\label{fig:ram-quantized}
 \end{figure}
+
+
+\phantomsection
+\subsection*{A6. Training Visualisation Web UI}
+\addcontentsline{toc}{subsection}{A6. Training Visualisation Web UI}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{webui_training}
+\caption{Web interface used to configure runs and visualise training}
+\label{fig:webui-training}
+\end{figure}
+
+
+\clearpage
+\phantomsection
+\section*{B. Assistance for Running the Project}
+\addcontentsline{toc}{section}{B. Assistance for Running the Project}
+
+The project utilizes docker Compose to maintain a consistent execution
+environment across all operating systems. This ensures that dependencies and
+configurations remain isolated and reproducible.
+
+\phantomsection
+\subsection*{B1. Prerequisites}
+\addcontentsline{toc}{subsection}{B1. Prerequisites}
+
+Ensure that the following software is installed on your host machine:
+
+\begin{itemize}
+    \item Git for version control.
+    \item docker Desktop (or docker Engine with docker Compose) for
+    containerization.
+\end{itemize}
+
+\phantomsection
+\subsection*{B2. Project Initialization}
+\addcontentsline{toc}{subsection}{B2. Project Initialization}
+
+\noindent
+\textbf{1. Clone the Repository}
+
+\begin{lstlisting}
+git clone https://gitlab.almondsai.com/khce/neat-for-mario.git
+cd neat-for-mario
+\end{lstlisting}
+
+\noindent
+\textbf{2. Add Game ROMs}
+
+\noindent
+Due to copyright and legal constraints, the original Nintendo game ROMs cannot
+be tracked in version control.
+
+\begin{enumerate}
+    \item Create a folder named \texttt{roms/} in the project root directory.
+    \item Place the legally acquired Super Mario Bros.\ ROM inside this folder
+    before attempting to run the project.
+\end{enumerate}
+
+\noindent
+\textbf{3. Environment Configuration (Linux Users Only)}
+
+\noindent
+If running natively on Linux (Ubuntu, Arch, etc.), generate a user environment
+file before building the container to ensure file permissions are correctly
+mapped from the docker container to the host filesystem:
+
+\begin{lstlisting}
+echo -e "HOST_UID=$(id -u)\nHOST_GID=$(id -g)" > .env
+\end{lstlisting}
+
+\noindent
+\textbf{4. Build the docker Image}
+
+\begin{lstlisting}
+docker compose build
+\end{lstlisting}
+
+\phantomsection
+\subsection*{B3. Daily Development Workflow}
+\addcontentsline{toc}{subsection}{B3. Daily Development Workflow}
+
+Code editing should be done on the host machine using standard IDEs (VS Code,
+Neovim), while code execution takes place entirely inside the docker container.
+
+\noindent
+\textbf{1. Accessing the Container Shell}
+
+\noindent
+Spin up the container and access its interactive terminal:
+
+\begin{lstlisting}
+docker compose run --rm app
+\end{lstlisting}
+
+\noindent
+\textbf{Note:} The terminal prompt will change to indicate execution is now
+happening inside the docker environment.
+
+\noindent
+\textbf{2. Syncing Dependencies and Execution}
+
+\noindent
+Ensure the python environment is synced with the locked configuration using
+\texttt{uv}, then activate the environment and run the training pipeline:
+
+\begin{lstlisting}
+# Sync dependencies
+uv sync --frozen
+
+# Activate virtual environment and run
+source .venv/bin/activate
+python main.py
+\end{lstlisting}
+
+\phantomsection
+\subsection*{B4. Interactive Play Mode}
+\addcontentsline{toc}{subsection}{B4. Interactive Play Mode}
+
+To verify the environment or simply play the game manually using keyboard
+controls, you must first import the ROM into stable retro, then launch the
+interactive script:
+
+\noindent
+\textbf{1. Import the ROM}
+
+\begin{lstlisting}
+uv run python -m stable_retro.import
+\end{lstlisting}
+
+\noindent
+\textbf{2. Launch the Game}
+
+\begin{lstlisting}
+uv run python -m stable_retro.examples.interactive \
+    --game SuperMarioBros-Nes-v0
+\end{lstlisting}

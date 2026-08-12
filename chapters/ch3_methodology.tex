@@ -71,7 +71,7 @@ unchanged.
 \label{subsec:rom-emulator}
 
 We used the original Super Mario Bros.\ NES ROM running under
-\texttt{stable\_retro}, a maintained fork of OpenAI Retro. We chose an emulator
+\texttt{stable\_retro}~\cite{stableretro}, a maintained fork of OpenAI Retro. We chose an emulator
 over reimplementing the game because the emulator reproduces the original
 physics exactly. Momentum in this game is subtle, and an approximation would
 have changed the problem the agent has to solve without us being able to say
@@ -79,7 +79,9 @@ by how much.
 
 \noindent
 Each genome is evaluated in its own emulator instance, created with
-\texttt{stable\_retro.make()} and closed when the episode ends. Keeping the
+% \allowbreak lets TeX break this typewriter word after the underscore;
+% without it the whole token is unbreakable and runs past the margin.
+\texttt{stable\_\allowbreak retro.make()} and closed when the episode ends. Keeping the
 instances separate means no state can leak from one genome's run into the next.
 We train headless, with rendering disabled, because nothing in the pipeline
 reads the video output and drawing frames would only cost time. Episodes are
@@ -257,7 +259,7 @@ form the next generation.
 \noindent
 Because each genome's episode is independent of every other, we evaluate them
 in parallel across CPU cores. We wrote our own parallel evaluator rather than
-using the one in \texttt{neat-python}, whose worker contract expects a worker
+using the one in \texttt{neat-python}~\cite{neatpython}, whose worker contract expects a worker
 to return a fitness for a genome handed to it. Our workers each have to build
 an emulator instance, run the episode and tear the emulator down again, which
 does not fit that contract.
@@ -291,7 +293,8 @@ best genome of the generation that just finished.
 
 \noindent
 A PDF reporter fires on the same interval and produces a visual summary using
-\texttt{matplotlib}, which works headless and therefore inside Docker. Each
+\texttt{matplotlib}~\cite{hunter2007}, which works headless and therefore inside
+Docker~\cite{merkel2014}. Each
 report covers fitness and topology at a high level, a diagram of the champion
 network, that champion's weight distribution, the worst genome for contrast, a
 species breakdown by age and fitness, and the fitness curve so far read back

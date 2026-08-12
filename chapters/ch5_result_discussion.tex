@@ -3,6 +3,125 @@
 \label{ch:result-discussion}
 % ============================================================
 
+\section{Agile Software Development Lifecycle}
+\label{sec:agile-lifecycle}
+
+To systematically manage this engineering complexity, the project adopted an
+Agile software development methodology~\cite{beck2001}. Rather than relying on
+rigid, plan-driven design phases, Agile principles prioritize rapid
+prototyping, continuous feedback, and modular adaptation~\cite{sommerville2016}.
+This iterative approach facilitated an incremental engineering strategy,
+enabling the system to be constructed in discrete, verifiable
+modules---beginning with a lightweight environment interface and baseline input
+processing pipeline before integrating the full NEAT evolutionary engine.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{agile_lifecycle}
+\caption{Traditional and Agile Software Development Lifecycles}
+\label{fig:agile-lifecycle}
+\end{figure}
+
+\noindent
+Figure~\ref{fig:agile-lifecycle} contrasts the two. The traditional method
+passes once through define, code, integrate and test, so the first real
+feedback arrives only when the finished software does. The Agile method repeats
+that same cycle in short iterations, each producing a working increment that is
+reviewed and adjusted before the next begins. For this project that distinction
+mattered, because the fitness function could not be specified correctly in
+advance: each of the failures described later in this chapter was found by
+running an increment and inspecting the behaviour it produced.
+
+\noindent
+The methodology also shaped how the work was organised in practice. The work
+was divided into three phases: a planning phase defining the environment, RAM
+extraction, visualisation and training modules; a development phase of
+iterative coding and unit testing of isolated components; and an integration
+phase synthesising those components and running integration tests across the
+complete pipeline.
+
+% ============================================================
+\section{Agile Sprints}
+\label{sec:agile-sprints}
+
+We used the Asana board for managing the Agile sprint board, shown in
+Figure~\ref{fig:asana-board} in Appendix~A, with the task detail view in
+Figure~\ref{fig:asana-task}. The project was executed over six sprints between
+June and August 2026, followed by a short finalisation period. Each sprint is
+described below.
+
+\subsection{Sprint 1: Project Setup (June 2026)}
+
+\begin{itemize}
+    \item Held the kickoff meeting and set up Asana for task management.
+    \item Carried out the initial literature review and established the Git
+    workflow.
+\end{itemize}
+
+\subsection{Sprint 2: Environment Preparation (July Week 1)}
+
+\begin{itemize}
+    \item Produced the first version of the system design.
+    \item Began integrating the \texttt{stable\_retro} emulator.
+    \item Dockerized the development environment using \texttt{docker-compose}.
+\end{itemize}
+
+\subsection{Sprint 3: RAM Extraction (July Week 2)}
+
+\begin{itemize}
+    \item Read the emulator's work RAM to recover Mario's position.
+    \item Extracted enemy and entity data from RAM.
+    \item Studied the environment using the recovered positional information.
+    \item Downscaled and quantized the state into the $16 \times 13$ grid.
+    \item Fed the quantized grid to the NEAT input layer.
+\end{itemize}
+
+\subsection{Sprint 4: NEAT Pipeline and Midterm (Mid-July)}
+
+\begin{itemize}
+    \item Modularized the core NEAT pipeline.
+    \item Developed the CSV analytics logger.
+    \item Added automated PDF report generation.
+    \item Drafted the midterm documentation covering methodology and
+    specifications, and compiled the final \LaTeX{} midterm report.
+\end{itemize}
+
+\subsection{Sprint 5: Advanced Architecture and Tuning (Late July 2026)}
+
+\begin{itemize}
+    \item Implemented and evaluated level-specific NEAT training.
+    \item Conducted experiments across different Mario levels and
+    configurations.
+    \item Identified the limitations of level-specific training, particularly
+    in terms of generalization and scalability.
+    \item Used these findings to guide the next phase toward a more generalized
+    solution.
+\end{itemize}
+
+\subsection{Sprint 6: Generalization, Parallel Training and Final Evaluation
+(August 2026)}
+
+\begin{itemize}
+    \item Explored a parallel training approach to improve training efficiency
+    and enable evaluation across multiple levels.
+    \item Investigated a moment-based approach for improving the agent's
+    decision-making and generalization.
+    \item Compared different training strategies and analyzed their strengths
+    and limitations.
+    \item Consolidated the final experimental results and selected the most
+    suitable approach for the project.
+\end{itemize}
+
+\subsection{Finalization: August 10--12, 2026}
+
+\begin{itemize}
+    \item Conducted final evaluations and performance analysis.
+    \item Consolidated experimental results and metrics.
+    \item Completed the final project report, including methodology,
+    experiments, limitations, results, and conclusions.
+\end{itemize}
+
+% ============================================================
 \section{Experimental Setup}
 \label{sec:experimental-setup}
 

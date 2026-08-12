@@ -1,9 +1,9 @@
 \contentsline {chapter}{COPYRIGHT\textcopyright }{i}{chapter*.1}%
 \contentsline {chapter}{ACKNOWLEDGEMENT}{ii}{chapter*.2}%
 \contentsline {chapter}{ABSTRACT}{iii}{chapter*.3}%
-\contentsline {chapter}{List of Figures}{vii}{section*.4}%
-\contentsline {chapter}{List of Tables}{viii}{section*.5}%
-\contentsline {chapter}{List of Symbols and Abbreviation}{ix}{chapter*.6}%
+\contentsline {chapter}{List of Figures}{viii}{section*.4}%
+\contentsline {chapter}{List of Tables}{ix}{section*.5}%
+\contentsline {chapter}{List of Symbols and Abbreviation}{x}{chapter*.6}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Motivation}{2}{section.1.2}%
@@ -30,58 +30,76 @@
 \contentsline {subsection}{\numberline {3.3.3}Spatial State Representation}{18}{subsection.3.3.3}%
 \contentsline {subsection}{\numberline {3.3.4}NEAT-Based Agent and Action Generation}{19}{subsection.3.3.4}%
 \contentsline {subsection}{\numberline {3.3.5}Fitness Function}{19}{subsection.3.3.5}%
-\contentsline {subsection}{\numberline {3.3.6}Evolutionary Process}{19}{subsection.3.3.6}%
-\contentsline {subsection}{\numberline {3.3.7}Logging, Checkpoints and Evaluation}{20}{subsection.3.3.7}%
+\contentsline {subsection}{\numberline {3.3.6}Evolutionary Process}{20}{subsection.3.3.6}%
+\contentsline {subsection}{\numberline {3.3.7}Logging, Checkpoints and Evaluation}{21}{subsection.3.3.7}%
 \contentsline {section}{\numberline {3.4}Training Approaches}{21}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Approach I: Level-Specific NEAT Training}{21}{subsection.3.4.1}%
-\contentsline {subsubsection}{\numberline {3.4.1.1}Fitness Function}{21}{subsubsection.3.4.1.1}%
-\contentsline {subsection}{\numberline {3.4.2}Approach II: Multi-Level Generalised NEAT Training}{22}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.1}Approach I: Level-Specific NEAT Training}{22}{subsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.1.1}Fitness Function}{22}{subsubsection.3.4.1.1}%
+\contentsline {subsection}{\numberline {3.4.2}Approach II: Multi-Level Generalised NEAT Training}{23}{subsection.3.4.2}%
 \contentsline {subsubsection}{\numberline {3.4.2.1}State Variables}{23}{subsubsection.3.4.2.1}%
 \contentsline {subsubsection}{\numberline {3.4.2.2}Fitness Function}{24}{subsubsection.3.4.2.2}%
 \contentsline {subsubsection}{\numberline {3.4.2.3}Level Weighting}{25}{subsubsection.3.4.2.3}%
 \contentsline {subsection}{\numberline {3.4.3}Approach III: Moment-Based NEAT Training}{25}{subsection.3.4.3}%
 \contentsline {subsubsection}{\numberline {3.4.3.1}Collecting the Moments}{26}{subsubsection.3.4.3.1}%
-\contentsline {subsubsection}{\numberline {3.4.3.2}Per-Moment Fitness}{26}{subsubsection.3.4.3.2}%
+\contentsline {subsubsection}{\numberline {3.4.3.2}Per-Moment Fitness}{27}{subsubsection.3.4.3.2}%
 \contentsline {subsubsection}{\numberline {3.4.3.3}Aggregation I: Mean Across Moments}{27}{subsubsection.3.4.3.3}%
-\contentsline {subsubsection}{\numberline {3.4.3.4}Aggregation II: Spread Penalty}{27}{subsubsection.3.4.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.3.4}Aggregation II: Spread Penalty}{28}{subsubsection.3.4.3.4}%
 \contentsline {chapter}{\numberline {4}System Design}{29}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Requirement Specification}{29}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Functional Requirements}{29}{subsection.4.1.1}%
 \contentsline {subsection}{\numberline {4.1.2}Non-Functional Requirements}{29}{subsection.4.1.2}%
-\contentsline {section}{\numberline {4.2}Context Diagram}{29}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Data Flow Diagram}{30}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}DFD Level 0}{30}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}DFD Level 1}{30}{subsection.4.3.2}%
-\contentsline {section}{\numberline {4.4}Use Case Diagram}{31}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Class Diagram}{31}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Sequence Diagram}{32}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Component Diagram}{32}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Deployment Diagram}{33}{section.4.8}%
-\contentsline {section}{\numberline {4.9}Gantt Chart}{33}{section.4.9}%
-\contentsline {chapter}{\numberline {5}Result and Discussion}{34}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Experimental Setup}{34}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Approach I: Level-Specific Training}{35}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Distance and Level Coverage}{35}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Structural Complexity}{36}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Learning Rate}{37}{subsection.5.2.3}%
-\contentsline {subsection}{\numberline {5.2.4}Limitation}{37}{subsection.5.2.4}%
-\contentsline {section}{\numberline {5.3}Approach II: Multi-Level Training}{38}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Approach III: Moment-Based Training}{40}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Mean Aggregation}{40}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}Spread Penalty}{41}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}Consistency}{41}{subsection.5.4.3}%
-\contentsline {section}{\numberline {5.5}Discussion}{43}{section.5.5}%
-\contentsline {chapter}{\numberline {6}Conclusion and Recommendation}{44}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Conclusion}{44}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Recommendations}{45}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Limitations and Future Work}{46}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Limitations}{46}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}Future Work}{48}{subsection.6.3.2}%
-\contentsline {chapter}{References}{50}{section*.29}%
-\contentsline {chapter}{Appendix}{52}{section*.31}%
-\contentsline {section}{A. User Interface Screenshots}{52}{section*.32}%
-\contentsline {subsection}{A1.}{52}{section*.33}%
-\contentsline {subsection}{A2. }{52}{section*.35}%
-\contentsline {subsection}{A3. }{53}{section*.37}%
-\contentsline {subsection}{A4. }{53}{section*.39}%
-\contentsline {subsection}{A5. }{54}{section*.41}%
+\contentsline {subsubsection}{\numberline {4.1.2.1}Reliability}{29}{subsubsection.4.1.2.1}%
+\contentsline {subsubsection}{\numberline {4.1.2.2}Maintainability}{29}{subsubsection.4.1.2.2}%
+\contentsline {subsubsection}{\numberline {4.1.2.3}Performance}{30}{subsubsection.4.1.2.3}%
+\contentsline {subsubsection}{\numberline {4.1.2.4}Frame Rate and Throughput}{30}{subsubsection.4.1.2.4}%
+\contentsline {section}{\numberline {4.2}Data Flow Diagram}{30}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}DFD Level 0}{30}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}DFD Level 1}{31}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Use Case Diagram}{32}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Class Diagram}{33}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Sequence Diagram}{34}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Component Diagram}{35}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Deployment Diagram}{36}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Gantt Chart}{37}{section.4.8}%
+\contentsline {chapter}{\numberline {5}Result and Discussion}{38}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Agile Software Development Lifecycle}{38}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Agile Sprints}{39}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Sprint 1: Project Setup (June 2026)}{39}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Sprint 2: Environment Preparation (July Week 1)}{39}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Sprint 3: RAM Extraction (July Week 2)}{39}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Sprint 4: NEAT Pipeline and Midterm (Mid-July)}{40}{subsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.2.5}Sprint 5: Advanced Architecture and Tuning (Late July 2026)}{40}{subsection.5.2.5}%
+\contentsline {subsection}{\numberline {5.2.6}Sprint 6: Generalization, Parallel Training and Final Evaluation (August 2026)}{40}{subsection.5.2.6}%
+\contentsline {subsection}{\numberline {5.2.7}Finalization: August 10--12, 2026}{40}{subsection.5.2.7}%
+\contentsline {section}{\numberline {5.3}Experimental Setup}{41}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Approach I: Level-Specific Training}{42}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Distance and Level Coverage}{42}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Structural Complexity}{43}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Learning Rate}{44}{subsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.4.4}Limitation}{44}{subsection.5.4.4}%
+\contentsline {section}{\numberline {5.5}Approach II: Multi-Level Training}{45}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Approach III: Moment-Based Training}{46}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Mean Aggregation}{46}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Spread Penalty}{48}{subsection.5.6.2}%
+\contentsline {subsection}{\numberline {5.6.3}Consistency}{48}{subsection.5.6.3}%
+\contentsline {section}{\numberline {5.7}Discussion}{50}{section.5.7}%
+\contentsline {chapter}{\numberline {6}Conclusion and Recommendation}{51}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Conclusion}{51}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Recommendations}{53}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Limitations and Future Work}{54}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Limitations}{54}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Future Work}{55}{subsection.6.3.2}%
+\contentsline {chapter}{References}{57}{section*.29}%
+\contentsline {chapter}{Appendix}{59}{section*.31}%
+\contentsline {section}{A. Project Management and Development Screenshots}{59}{section*.32}%
+\contentsline {subsection}{A1. Asana Kanban Board}{59}{section*.33}%
+\contentsline {subsection}{A2. Asana Task Detail}{60}{section*.35}%
+\contentsline {subsection}{A3. Emulator Snapshot}{61}{section*.37}%
+\contentsline {subsection}{A4. Raw WRAM Tilemap}{61}{section*.39}%
+\contentsline {subsection}{A5. Quantized Input Grid}{62}{section*.41}%
+\contentsline {subsection}{A6. Training Visualisation Web UI}{63}{section*.43}%
+\contentsline {section}{B. Assistance for Running the Project}{64}{section*.45}%
+\contentsline {subsection}{B1. Prerequisites}{64}{section*.46}%
+\contentsline {subsection}{B2. Project Initialization}{64}{section*.47}%
+\contentsline {subsection}{B3. Daily Development Workflow}{65}{section*.48}%
+\contentsline {subsection}{B4. Interactive Play Mode}{65}{section*.49}%
