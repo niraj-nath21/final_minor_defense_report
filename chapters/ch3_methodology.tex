@@ -107,8 +107,9 @@ values that describe the current situation:
     on-screen pixel coordinates come from \texttt{0x03AD} and \texttt{0x03B8}.
 
     \item \textbf{Velocity.} Horizontal speed is a signed byte at
-    \texttt{0x7D}, which we use both as a fitness term and as a guard against
-    a degenerate behaviour described in Section~\ref{subsec:fitness}.
+    \texttt{0x7D}. This one is read for scoring only and is never given to the
+    network: it supplies a fitness term and the guard against a degenerate
+    behaviour described in Section~\ref{subsec:approach-multilevel}.
 
     \item \textbf{Enemies.} The game tracks five enemy slots. An activity flag
     for each starts at \texttt{0x0F}, with coordinates starting at
@@ -152,7 +153,10 @@ $\downarrow$ \\
 
 \noindent
 The grid covers what is currently on screen and is flattened into a
-208-element vector. Each cell carries one of four values:
+208-element vector, which is the network's entire input. No scalar values are
+appended to it: the grid already encodes Mario's position, the terrain and the
+enemies, which is everything needed to choose a button. Each cell carries one
+of four values:
 
 \begin{center}
 \begin{tabular}{@{}rl@{}}
@@ -369,8 +373,7 @@ faster gains meaningfully, which is the core signal we wanted, and the
 completion bonus of 2000 sits far above any distance a genome could accumulate
 without finishing, so reaching the flagpole always dominates.
 
-\subsubsection{Discussion}
-
+\noindent
 The advantage is depth. A population that only ever sees one layout can commit
 entirely to it and learns that specific sequence of obstacles thoroughly. The
 disadvantage is that this is close to memorisation: the resulting genome
@@ -651,8 +654,9 @@ the progress term.
 
 \subsubsection{Aggregation I: Mean Across Moments}
 
-The genome's fitness is the mean of its per-moment scores across all $N$
-moments in the batch:
+The first scheme is the one Autin~\cite{autin2024} settled on, in which a
+genome's fitness is the mean of its per-moment scores across all $N$ moments in
+the batch:
 
 \begin{equation}
     F_{\text{mean}} = \frac{1}{N} \sum_{i=1}^{N}
@@ -675,7 +679,8 @@ typical situation.
 
 The mean has a weakness. It rewards a high average, but says nothing about
 consistency, so a genome that is excellent on most moments and hopeless on a
-few can outscore one that is uniformly competent. The second scheme penalises
+few can outscore one that is uniformly competent. The second scheme is our own
+addition rather than part of the scheme in~\cite{autin2024}, and it penalises
 that inconsistency:
 
 \begin{equation}

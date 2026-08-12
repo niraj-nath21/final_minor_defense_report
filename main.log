@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.8.12)  12 AUG 2026 17:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.8.12)  12 AUG 2026 18:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1080,28 +1080,27 @@ File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ])
 (./frontmatter/toc.tex (./main.toc [4
 
-] [5] [6])
+] [5])
 \tf@toc=\write5
 \openout5 = `main.toc'.
 
- [7] (./main.lof)
+ [6] (./main.lof)
 \tf@lof=\write6
 \openout6 = `main.lof'.
 
- [8
+ [7
 
-]
-(./main.lot)
+] (./main.lot)
 \tf@lot=\write7
 \openout7 = `main.lot'.
 
- [9
 
-]) (./frontmatter/abbreviations.tex [10
+[8
+
+]) (./frontmatter/abbreviations.tex [9
 
 
-])
-(./chapters/ch1_introduction.tex
+]) (./chapters/ch1_introduction.tex
 Chapter 1.
 [1
 
@@ -1139,7 +1138,7 @@ ound in box being split [12]
 ignored: Infinite glue shrinkage found in box being split [1
 3]) (./chapters/ch3_methodology.tex [14]
 Chapter 3.
-<figures/system_block_diagram.png, id=788, 371.3875pt x 541.02126pt>
+<figures/system_block_diagram.png, id=665, 371.3875pt x 541.02126pt>
 File: figures/system_block_diagram.png Graphic file (type png)
 <use figures/system_block_diagram.png>
 Package pdftex.def Info: figures/system_block_diagram.png  used on input line 1
@@ -1147,52 +1146,155 @@ Package pdftex.def Info: figures/system_block_diagram.png  used on input line 1
 (pdftex.def)             Requested size: 269.63611pt x 392.80411pt.
 [15
 
- <./figures/system_block_diagram.png>]
+ <./figures/system_block_diagram.png>] [16]
 Overfull \hbox (25.15497pt too wide) in paragraph at lines 80--89
 \T1/lmr/m/n/12 Each genome is eval-u-ated in its own em-u-la-tor in-stance, cre
 -ated with \T1/lmtt/m/n/12 stable_retro.make()
  []
 
-[16] [17] [18] [19] [20] [21{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex
-.enc}] [22]
+[17] [18] [19] [20] [21] [22{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex
+.enc}]
 LaTeX Font Info:    Trying to load font information for OT1+lmtt on input line 
-459.
+462.
  (/usr/share/texmf-dist/tex/latex/lm/ot1lmtt.fd
 File: ot1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [23{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc}] [24] [25] [26])
-(./chapters/ch4_system_design.tex [27]
+) [23{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc}] [24] [25] [26] [27
+])
+(./chapters/ch4_system_design.tex [28]
 Chapter 4.
-[28
+[29
 
-] [29] [30] [31]) (./chapters/ch5_result_discussion.tex [32]
+] [30] [31] [32]) (./chapters/ch5_result_discussion.tex [33]
 Chapter 5.
 
-Overfull \hbox (17.62482pt too wide) in paragraph at lines 29--35
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 26--45
 []$[]$ 
  []
 
-[33
+[34
 
 ]
-Overfull \hbox (17.62482pt too wide) in paragraph at lines 48--54
+<figures/results/a1_distance.png, id=788, 404.712pt x 230.17995pt>
+File: figures/results/a1_distance.png Graphic file (type png)
+<use figures/results/a1_distance.png>
+Package pdftex.def Info: figures/results/a1_distance.png  used on input line 66
+.
+(pdftex.def)             Requested size: 369.66798pt x 210.25783pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 64--69
 []$[]$ 
  []
 
-[34]
-Overfull \hbox (17.62482pt too wide) in paragraph at lines 66--72
+<figures/results/a1_progress.png, id=790, 398.9304pt x 224.7597pt>
+File: figures/results/a1_progress.png Graphic file (type png)
+<use figures/results/a1_progress.png>
+Package pdftex.def Info: figures/results/a1_progress.png  used on input line 73
+.
+(pdftex.def)             Requested size: 369.66798pt x 208.28357pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 71--76
 []$[]$ 
  []
 
-[35] [36] [37]
-Overfull \hbox (17.62482pt too wide) in paragraph at lines 137--143
+[35 <./figures/results/a1_distance.png> <./figures/results/a1_progress.png>]
+<figures/results/a1_structure.png, id=798, 470.83905pt x 197.2971pt>
+File: figures/results/a1_structure.png Graphic file (type png)
+<use figures/results/a1_structure.png>
+Package pdftex.def Info: figures/results/a1_structure.png  used on input line 1
+02.
+(pdftex.def)             Requested size: 413.15404pt x 173.13428pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 100--105
 []$[]$ 
  []
 
-[38] [39]) (./chapters/ch6_conclusion.tex [40]
+[36 <./figures/results/a1_structure.png>]
+<figures/results/cmp_improvement.png, id=805, 398.56905pt x 235.96155pt>
+File: figures/results/cmp_improvement.png Graphic file (type png)
+<use figures/results/cmp_improvement.png>
+Package pdftex.def Info: figures/results/cmp_improvement.png  used on input lin
+e 132.
+(pdftex.def)             Requested size: 369.66798pt x 218.85149pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 130--135
+[]$[]$ 
+ []
+
+[37 <./figures/results/cmp_improvement.png>]
+<figures/results/a2_distance.png, id=813, 404.712pt x 224.7597pt>
+File: figures/results/a2_distance.png Graphic file (type png)
+<use figures/results/a2_distance.png>
+Package pdftex.def Info: figures/results/a2_distance.png  used on input line 16
+6.
+(pdftex.def)             Requested size: 369.66798pt x 205.30672pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 164--169
+[]$[]$ 
+ []
+
+<figures/results/a2_structure.png, id=815, 471.9231pt x 197.2971pt>
+File: figures/results/a2_structure.png Graphic file (type png)
+<use figures/results/a2_structure.png>
+Package pdftex.def Info: figures/results/a2_structure.png  used on input line 1
+81.
+(pdftex.def)             Requested size: 413.15404pt x 172.73087pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 179--184
+[]$[]$ 
+ []
+
+[38 <./figures/results/a2_distance.png> <./figures/results/a2_structure.png>]
+<figures/results/a2_species.png, id=823, 393.1488pt x 224.7597pt>
+File: figures/results/a2_species.png Graphic file (type png)
+<use figures/results/a2_species.png>
+Package pdftex.def Info: figures/results/a2_species.png  used on input line 197
+.
+(pdftex.def)             Requested size: 369.66798pt x 211.34616pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 195--200
+[]$[]$ 
+ []
+
+[39 <./figures/results/a2_species.png>]
+<figures/results/a3_mean.png, id=833, 404.712pt x 224.7597pt>
+File: figures/results/a3_mean.png Graphic file (type png)
+<use figures/results/a3_mean.png>
+Package pdftex.def Info: figures/results/a3_mean.png  used on input line 224.
+(pdftex.def)             Requested size: 369.66798pt x 205.30672pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 222--227
+[]$[]$ 
+ []
+
+[40 <./figures/results/a3_mean.png>]
+<figures/results/a3_spread.png, id=839, 402.90524pt x 224.7597pt>
+File: figures/results/a3_spread.png Graphic file (type png)
+<use figures/results/a3_spread.png>
+Package pdftex.def Info: figures/results/a3_spread.png  used on input line 253.
+
+(pdftex.def)             Requested size: 369.66798pt x 206.2327pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 251--256
+[]$[]$ 
+ []
+
+<figures/results/a3_consistency.png, id=842, 402.90524pt x 224.7597pt>
+File: figures/results/a3_consistency.png Graphic file (type png)
+<use figures/results/a3_consistency.png>
+Package pdftex.def Info: figures/results/a3_consistency.png  used on input line
+ 276.
+(pdftex.def)             Requested size: 369.66798pt x 206.2327pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 274--279
+[]$[]$ 
+ []
+
+[41 <./figures/results/a3_spread.png>] [42 <./figures/results/a3_consistency.pn
+g>]) (./chapters/ch6_conclusion.tex [43]
 Chapter 6.
-) (./backmatter/references.tex [41
+) (./backmatter/references.tex [44
 
-] [42
+] [45
 
 
 ]
@@ -1207,22 +1309,22 @@ Underfull \hbox (badness 5908) in paragraph at lines 72--75
 https : / / github . com / yumouwei /
  []
 
-) (./backmatter/appendix.tex [43] [44
+) (./backmatter/appendix.tex [46] [47
 
-] [45]) [46] (./main.aux)
+] [48]) [49] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: BBE30297356CA958E9A47F182CAACD79;20297.
+(rerunfilecheck)             Checksum: E9FB0297356B1369DFB6D84817E9A709;15637.
  ) 
 Here is how much of TeX's memory you used:
- 28989 strings out of 469515
- 542527 string characters out of 5470807
- 960317 words of memory out of 5000000
- 56859 multiletter control sequences out of 15000+600000
- 701094 words of font info for 88 fonts, out of 8000000 for 9000
+ 29056 strings out of 469515
+ 545383 string characters out of 5470807
+ 960023 words of memory out of 5000000
+ 56947 multiletter control sequences out of 15000+600000
+ 704351 words of font info for 90 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  104i,15n,111p,420b,979s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dis
@@ -1235,10 +1337,10 @@ type1/public/lm/lmri10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri12.
 pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-d
 ist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/l
 m/lmtt12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on main.pdf (59 pages, 389991 bytes).
+Output written on main.pdf (61 pages, 995481 bytes).
 PDF statistics:
- 1102 PDF objects out of 1200 (max. 8388607)
- 994 compressed objects within 10 object streams
- 232 named destinations out of 1000 (max. 500000)
- 882 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1021 PDF objects out of 1200 (max. 8388607)
+ 892 compressed objects within 9 object streams
+ 209 named destinations out of 1000 (max. 500000)
+ 748 words of extra memory for PDF output out of 10000 (max. 10000000)
 

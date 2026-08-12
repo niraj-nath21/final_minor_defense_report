@@ -6,223 +6,339 @@
 \section{Experimental Setup}
 \label{sec:experimental-setup}
 
-% ------------------------------------------------------------
-\subsection{}
-\label{subsec:module-a-results}
-% ---- Module A ----
+All runs were carried out on consumer hardware with training confined to the
+CPU, using the pipeline described in
+Section~\ref{sec:common-architecture}. Every run logs one row per generation to
+a CSV file, and the figures in this chapter are drawn from those logs.
 
-\subsubsection{}
-% models covered in this module
+\noindent
+Fitness values are not compared across approaches anywhere in this chapter. The
+three approaches use different fitness functions with different scales and
+different meanings, so a fitness of 500 under one is not a better or worse
+result than a fitness of 500 under another. Where a comparison is made across
+approaches it is made on distance covered, on network structure, or on the
+consistency of a genome's performance across levels, all of which mean the same
+thing regardless of how the genome was scored.
 
-\paragraph{Model Training Phases}
+\noindent
+Table~\ref{tab:run-summary} summarises the runs.
 
-\paragraph{}
-% ---- Model 1 training ----
-\begin{figure}[H]
-\centering
-% \includegraphics[width=\textwidth]{model1_curves}
-\figplaceholder{7cm}{[ Model 1 Training and Validation Loss / Accuracy Curves ]}
-\caption{Model 1 Training and Validation Loss and Accuracy Curves}
-\label{fig:model1-curves}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.8\textwidth]{model1_confusion}
-\figplaceholder{7cm}{[ Model 1 Confusion Matrix ]}
-\caption{Model 1 Confusion Matrix}
-\label{fig:model1-confusion}
-\end{figure}
-
-
-\subsubsection{}
-% ---- Model 2 training ----
-\begin{figure}[H]
-\centering
-% \includegraphics[width=\textwidth]{model2_curves}
-\figplaceholder{7cm}{[ Model 2 Training and Validation Loss / Accuracy Curves ]}
-\caption{Model 2 Training and Validation Loss and Accuracy Curves}
-\label{fig:model2-curves}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.8\textwidth]{model2_confusion}
-\figplaceholder{7cm}{[ Model 2 Confusion Matrix ]}
-\caption{Model 2 Confusion Matrix}
-\label{fig:model2-confusion}
-\end{figure}
-
-
-\subsubsection{ROC Curve Analysis}
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.8\textwidth]{roc_model1}
-\figplaceholder{6.5cm}{[ ROC Curves for Model 1 ]}
-\caption{ROC Curves for Model 1}
-\label{fig:roc-model1}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.8\textwidth]{roc_model2}
-\figplaceholder{6.5cm}{[ ROC Curves for Model 2 ]}
-\caption{ROC Curves for Model 2}
-\label{fig:roc-model2}
-\end{figure}
-
-
-\subsubsection{Model Comparison and Analysis}
 \begin{table}[H]
 \centering
-\caption{Model Comparison}
-\label{tab:model-comparison}
-\begin{tabular}{@{}lcc@{}}
+\caption{Summary of Training Runs}
+\label{tab:run-summary}
+\small
+\begin{tabular}{@{}llrr@{}}
 \toprule
-\textbf{Metric} & \textbf{Model 1} & \textbf{Model 2} \\
+\textbf{Approach} & \textbf{Run} & \textbf{Generations} & \textbf{Best distance} \\
 \midrule
- &  &  \\
- &  &  \\
- &  &  \\
+I   & Level 1-1        & 1102 & 3267 \\
+I   & Level 2-1        &  744 & 2458 \\
+I   & Level 3-1        & 4054 & 2962 \\
+\addlinespace
+II  & Multi-level      &  154 & 3267 \\
+\addlinespace
+III & Mean aggregation &  161 & --- \\
+III & Spread penalty   &   87 & --- \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-
-\subsubsection{Training Behavior Analysis}
-
-\paragraph{Convergence Speed}
-
-\paragraph{Learning Rate Sensitivity}
-
-\paragraph{Generalization Gap}
-
-\paragraph{Computational Efficiency}
-
-
-% ------------------------------------------------------------
-\subsection{}
-\label{subsec:module-b-results}
-% ---- Module B ----
-
-\subsubsection{Model Training Phases}
-
-\paragraph{Phase I}
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.85\textwidth]{phase1_loss}
-\figplaceholder{6.5cm}{[ Training and Validation Loss Curve for Phase I ]}
-\caption{Training and Validation Loss Curve for Phase I}
-\label{fig:phase1-loss}
-\end{figure}
-
-\paragraph{Phase II}
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.85\textwidth]{phase2_loss}
-\figplaceholder{6.5cm}{[ Training and Validation Loss Curve for Phase II ]}
-\caption{Training and Validation Loss Curve for Phase II}
-\label{fig:phase2-loss}
-\end{figure}
-
-\paragraph{Phase III}
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.85\textwidth]{phase3_loss}
-\figplaceholder{6.5cm}{[ Training and Validation Loss Curve for Phase III ]}
-\caption{Training and Validation Loss Curve for Phase III}
-\label{fig:phase3-loss}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.85\textwidth]{phase3_metrics}
-\figplaceholder{6.5cm}{[ Training and Validation Accuracy / mIoU Curves for Phase III ]}
-\caption{Training and Validation Accuracy and mIoU Curves for Phase III}
-\label{fig:phase3-metrics}
-\end{figure}
-
-
-\subsubsection{Model Behaviour Across Dataset Splits}
-
-\subsubsection{Final Model Configuration}
-
+\noindent
+Distance is not reported for Approach III because a moment run does not
+measure it the same way: a genome starts partway through a level and is scored
+on the ground it covers from there, so the figure is not comparable with a
+full-level run.
 
 % ============================================================
-\section{Software Development Approach}
-\label{sec:software-development-approach}
+\section{Approach I: Level-Specific Training}
+\label{sec:results-approach-1}
 
-\subsection{Agile Development Methodology}
-\label{subsec:agile-methodology}
+\subsection{Distance and Level Coverage}
+
+Each level was trained with its own population. Figure~\ref{fig:a1-distance}
+shows the furthest point reached over the course of each run, and
+Figure~\ref{fig:a1-progress} expresses the same data as a percentage of the
+level's length so the three runs can be read against one another.
 
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.7\textwidth]{agile_cycle}
-\figplaceholder{6.5cm}{[ Agile Software Development Cycle ]}
-\caption{Agile Software Development Cycle}
-\label{fig:agile-cycle}
+\includegraphics[width=0.85\textwidth]{results/a1_distance}
+\caption{Best distance reached per generation, Approach I}
+\label{fig:a1-distance}
 \end{figure}
 
-
-\subsection{Agile Sprints}
-\label{subsec:agile-sprints}
-
-\subsubsection{Sprint 1: Research and Planning}
-
-\subsubsection{Sprint 2: Data Collection and Preprocessing}
-
-\subsubsection{Sprint 3: }
-
-\subsubsection{Sprint 4: }
-
-\subsubsection{Sprint 5: }
-
-
-\subsection{Sprint Summary}
-\label{subsec:sprint-summary}
-
-\begin{table}[H]
+\begin{figure}[H]
 \centering
-\caption{Sprint Summary}
-\label{tab:sprint-summary}
-\begin{tabularx}{\textwidth}{@{}p{0.10\textwidth} p{0.22\textwidth} X p{0.16\textwidth}@{}}
-\toprule
-\textbf{Sprint} & \textbf{Focus} & \textbf{Activities} & \textbf{Deliverable} \\
-\midrule
-1 &  &  &  \\
-\addlinespace
-2 &  &  &  \\
-\addlinespace
-3 &  &  &  \\
-\addlinespace
-4 &  &  &  \\
-\addlinespace
-5 &  &  &  \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\includegraphics[width=0.85\textwidth]{results/a1_progress}
+\caption{Proportion of each level covered, Approach I}
+\label{fig:a1-progress}
+\end{figure}
 
+\noindent
+Level 1-1 was solved. The population reached the flagpole at generation 500 and
+held it for the remaining 600 generations of the run. Level 3-1 reached 90.7\%
+of the level, but took 4054 generations to do so and spent most of that time on
+a plateau: it sat at roughly 74\% from generation 1500 to generation 3000
+before a late improvement carried it most of the way. Level 2-1 was the
+hardest, stalling at 75.3\% and not improving over the last 200 generations of
+its run.
+
+\noindent
+The shape of all three curves is the same and is worth noting: progress is not
+gradual. Long flat stretches are broken by sudden jumps, which is what
+evolutionary search looks like when a structural mutation finally produces
+behaviour that clears an obstacle the population has been stuck against. The
+flat sections are not wasted time; they are the population accumulating
+variation that has not yet paid off.
+
+\subsection{Structural Complexity}
+
+Figure~\ref{fig:a1-structure} shows how the champion network's structure
+developed.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{results/a1_structure}
+\caption{Champion network structure over training, Approach I}
+\label{fig:a1-structure}
+\end{figure}
+
+\noindent
+This is NEAT complexifying as intended. Every run starts from the same place,
+zero hidden nodes and 1248 enabled connections, since the initial genomes are
+fully connected with no hidden layer. From there the two quantities move in
+opposite directions. Hidden nodes accumulate, reaching 50 on Level 1-1 and 8 on
+the other two runs. Enabled connections fall sharply, from 1248 down to around
+100 on Level 1-1 and 250 to 320 on the others.
+
+\noindent
+The network is therefore not growing in the naive sense. It is discarding most
+of the dense input-to-output wiring it started with and replacing a small part
+of it with hidden structure. What survives is a much sparser network with a few
+intermediate nodes, which is a more useful description of the policy than the
+fully connected sheet it began as. Level 1-1, the run that actually solved its
+level, is also the run that went furthest in both directions, adding the most
+hidden nodes and pruning to the fewest connections.
+
+\subsection{Learning Rate}
+
+Figure~\ref{fig:cmp-improvement} normalises each run against its own starting
+distance and plots it against the fraction of the run completed, which makes
+the three learning curves comparable despite their very different lengths.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{results/cmp_improvement}
+\caption{Relative improvement over a training run, Approach I}
+\label{fig:cmp-improvement}
+\end{figure}
+
+\noindent
+All three runs gain most of their improvement early. By the time 20\% of each
+run has elapsed, Level 1-1 has already improved 6.7-fold over its generation-0
+distance and Level 2-1 5.8-fold, and the remaining 80\% of the run adds
+comparatively little. This is the practical argument against simply training
+for longer: Level 3-1 ran for 4054 generations, nearly four times Level 1-1's
+run, and finished with a smaller relative gain.
+
+\subsection{Limitation}
+
+The limitation of this approach is the one the curves cannot show. Each of
+these genomes was evolved against a single fixed layout and is scored only on
+that layout, so nothing in training rewarded behaviour that transfers. The
+Level 1-1 champion has learned the specific sequence of obstacles in Level 1-1,
+not how to play Super Mario Bros., and it performs poorly when placed in any
+other level. This is the same overfitting reported for
+MarI/O~\cite{sethbling2015}, and it is what motivated the second approach.
 
 % ============================================================
-\section{Model Deployment}
-\label{sec:model-deployment}
+\section{Approach II: Multi-Level Training}
+\label{sec:results-approach-2}
 
-\subsection{Frontend Development}
-\label{subsec:frontend-development}
+Approach II evaluates one genome across several levels and combines the results
+into a single score, so that selection favours genomes that are competent
+everywhere rather than genomes tuned to one layout. The run analysed here
+resumes from generation 806 of an earlier run and continues to generation 959.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{results/a2_distance}
+\caption{Distance reached per generation, Approach II}
+\label{fig:a2-distance}
+\end{figure}
 
+\noindent
+Figure~\ref{fig:a2-distance} shows distance holding between roughly 2900 and
+3267 across the window, with the running best reaching the full level length.
+The per-generation trace varies considerably from one generation to the next
+while the running best barely moves, which is the signature of a population
+that has converged: the champion is stable and the variation is the rest of the
+population exploring around it.
 
-\subsection{Backend Development}
-\label{subsec:backend-development}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{results/a2_structure}
+\caption{Champion network structure, Approach II}
+\label{fig:a2-structure}
+\end{figure}
 
+\noindent
+The structural picture in Figure~\ref{fig:a2-structure} is markedly different
+from Approach I. The champion carries around 150 hidden nodes, far more than
+the 8 to 50 seen in the level-specific runs, while its enabled connections
+continue to fall, from 304 to 235 over the window. A genome that has to handle
+several levels ends up with substantially more internal structure than one
+tuned to a single layout, which is what one would expect if the extra nodes are
+encoding responses to situations that only arise on some of the levels.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{results/a2_species}
+\caption{Active species count, Approach II}
+\label{fig:a2-species}
+\end{figure}
 
-\subsection{Model Integration}
-\label{subsec:model-integration}
+\noindent
+Figure~\ref{fig:a2-species} shows the species count moving between 1 and 12.
+The periods where it falls to a very low value are the population converging
+onto a single strategy, and the recoveries afterwards are the reset mechanism
+described in Section~\ref{subsec:approach-multilevel} rebuilding diversity. The
+mechanism is visibly doing its job here, though the fact that it has to
+intervene repeatedly indicates how strongly this configuration tends toward
+convergence.
 
-\subsubsection{API Integration}
+% ============================================================
+\section{Approach III: Moment-Based Training}
+\label{sec:results-approach-3}
 
-\begin{itemize}
-    \item \textbf{Request:}
-    \item \textbf{Response:}
-\end{itemize}
+\subsection{Mean Aggregation}
+
+The first moment-based scheme scores a genome as the plain mean of its
+per-moment fitness across the whole batch. Figure~\ref{fig:a3-mean} plots the
+champion's fitness on each of the four levels separately, which is what makes
+the problem with this scheme visible.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{results/a3_mean}
+\caption{Per-level champion fitness under mean aggregation}
+\label{fig:a3-mean}
+\end{figure}
+
+\noindent
+The four curves separate and stay separated. Averaged over the last ten
+generations of the run, the champion scores 190.2 on Level 1-1 and 189.2 on
+Level 4-1, but only 88.5 on Level 2-1, a spread of 101.7 between its best and
+worst level.
+
+\noindent
+This is exactly the failure the mean invites. A genome is selected on its
+average, so a large gain on one level fully compensates a large loss on
+another. Selection is therefore indifferent between a genome that plays all
+four levels adequately and one that plays two of them well and a third badly,
+provided the averages match. Since some levels are easier to improve on than
+others, the population drifts toward the easy ones and lets the hard one
+degrade, which is what the gap between the Level 1-1 and Level 2-1 curves
+records.
+
+\subsection{Spread Penalty}
+
+The second scheme subtracts a multiple of the standard deviation across levels
+from the mean, so a genome is rewarded for being good and for being evenly
+good.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{results/a3_spread}
+\caption{Per-level champion fitness under the spread penalty}
+\label{fig:a3-spread}
+\end{figure}
+
+\noindent
+Figure~\ref{fig:a3-spread} shows the four curves running much closer together.
+Over the last ten generations the champion scores 143.8, 125.7, 122.7 and 174.8
+on Levels 1-1 through 4-1, a spread of 52.1 against the 101.7 seen under the
+mean. The important part is where the change came from: Level 2-1, the weakest
+level under the mean, improves from 88.5 to 125.7, while Level 1-1 falls from
+190.2 to 143.8. The penalty has traded peak performance on the easy levels for
+competence on the hard one, which is precisely what it was designed to do.
+
+\subsection{Consistency}
+
+Figure~\ref{fig:a3-consistency} states the comparison directly, plotting the
+standard deviation of the champion's fitness across the four levels for both
+schemes. Both curves are restricted to generations 51 to 137, the window the
+two runs share, so they are compared over identical ground.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{results/a3_consistency}
+\caption{Consistency across levels under both aggregation schemes}
+\label{fig:a3-consistency}
+\end{figure}
+
+\noindent
+Over that window the mean scheme averages a cross-level standard deviation of
+261, against 24 for the spread penalty, a reduction of roughly eleven times.
+The mean scheme's curve is also erratic, climbing above 500 around generation
+100 before dropping sharply, which reflects the champion changing to a genome
+with a quite different balance across levels. The spread penalty's curve stays
+flat and low for its entire run.
+
+\noindent
+The mean distance covered per moment supports the same conclusion. Under the
+mean scheme it falls over the run, from 230 to 188, while under the spread
+penalty it rises from 163 to 177. A scheme that was rewarding genuine
+improvement should not see its distance measure decline, and the fact that the
+mean scheme does is a further sign that it was optimising the score rather than
+the behaviour.
+
+\noindent
+One qualification should be stated. The spread penalty run is shorter, 87
+generations against 161, and it resumes from an existing checkpoint rather than
+starting fresh, so the comparison is between the two schemes over a shared
+window rather than between two complete runs from scratch. The size of the
+difference, an order of magnitude in cross-level deviation, is large enough
+that this does not change the conclusion, but a longer paired run would state
+it more firmly.
+
+% ============================================================
+\section{Discussion}
+\label{sec:discussion}
+
+The three approaches form a sequence in which each one addresses the limitation
+the previous one exposed.
+
+\noindent
+Approach I established that NEAT can evolve a competent agent for a fixed
+level, solving Level 1-1 outright and covering most of Levels 2-1 and 3-1. It
+also established the cost of doing so: those genomes are specialists, they do
+not transfer, and one has to be trained per level. The result is a good
+baseline and a poor agent.
+
+\noindent
+Approach II removed the per-level specialisation by requiring one genome to
+play several levels before it is scored. This produced champions with
+substantially more internal structure, consistent with a policy that has to
+cover more situations, and the diversity trace shows the population repeatedly
+converging and having to be rebuilt, which suggests the multi-level objective
+is harder to satisfy than the single-level one.
+
+\noindent
+Approach III changed what a genome practises rather than what it is scored on,
+evaluating from mid-level situations so that difficult sections are trained as
+often as the opening stretch. Doing this exposed a problem that Approach II's
+combined score had hidden: with a plain mean, consistency across levels is not
+actually being selected for, and the population will quietly trade a hard level
+away. The spread penalty corrects this and reduces cross-level deviation by
+roughly eleven times, at a deliberate cost to peak performance on the easier
+levels.
+
+\noindent
+The broader observation across all three is that the fitness function, not the
+network, was where nearly every problem in this project was found and fixed.
+Each of the failures documented here, the specialist that will not transfer,
+the population that converges, and the mean that trades away a level, was a
+case of the agent optimising exactly what it was asked to optimise. The
+corrections were changes to the question, not to the learner.

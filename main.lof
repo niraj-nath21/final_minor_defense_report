@@ -3,30 +3,29 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces System Block Diagram}}{15}{figure.caption.8}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Context Diagram}}{28}{figure.caption.9}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces DFD Level 0}}{29}{figure.caption.10}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces DFD Level 1}}{29}{figure.caption.11}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Use Case Diagram}}{30}{figure.caption.12}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Class Diagram}}{30}{figure.caption.13}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Sequence Diagram}}{31}{figure.caption.14}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Component Diagram}}{31}{figure.caption.15}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Deployment Diagram}}{32}{figure.caption.16}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Project Gantt Chart}}{32}{figure.caption.17}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Context Diagram}}{29}{figure.caption.9}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces DFD Level 0}}{30}{figure.caption.10}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces DFD Level 1}}{30}{figure.caption.11}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Use Case Diagram}}{31}{figure.caption.12}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Class Diagram}}{31}{figure.caption.13}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Sequence Diagram}}{32}{figure.caption.14}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Component Diagram}}{32}{figure.caption.15}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Deployment Diagram}}{33}{figure.caption.16}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Project Gantt Chart}}{33}{figure.caption.17}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Model 1 Training and Validation Loss and Accuracy Curves}}{33}{figure.caption.18}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Model 1 Confusion Matrix}}{34}{figure.caption.19}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Model 2 Training and Validation Loss and Accuracy Curves}}{34}{figure.caption.20}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Model 2 Confusion Matrix}}{35}{figure.caption.21}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces ROC Curves for Model 1}}{35}{figure.caption.22}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces ROC Curves for Model 2}}{36}{figure.caption.23}%
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Training and Validation Loss Curve for Phase I}}{37}{figure.caption.25}%
-\contentsline {figure}{\numberline {5.8}{\ignorespaces Training and Validation Loss Curve for Phase II}}{37}{figure.caption.26}%
-\contentsline {figure}{\numberline {5.9}{\ignorespaces Training and Validation Loss Curve for Phase III}}{38}{figure.caption.27}%
-\contentsline {figure}{\numberline {5.10}{\ignorespaces Training and Validation Accuracy and mIoU Curves for Phase III}}{38}{figure.caption.28}%
-\contentsline {figure}{\numberline {5.11}{\ignorespaces Agile Software Development Cycle}}{39}{figure.caption.29}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Best distance reached per generation, Approach I}}{35}{figure.caption.19}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Proportion of each level covered, Approach I}}{35}{figure.caption.20}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Champion network structure over training, Approach I}}{36}{figure.caption.21}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Relative improvement over a training run, Approach I}}{37}{figure.caption.22}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Distance reached per generation, Approach II}}{38}{figure.caption.23}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Champion network structure, Approach II}}{38}{figure.caption.24}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Active species count, Approach II}}{39}{figure.caption.25}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Per-level champion fitness under mean aggregation}}{40}{figure.caption.26}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Per-level champion fitness under the spread penalty}}{41}{figure.caption.27}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Consistency across levels under both aggregation schemes}}{42}{figure.caption.28}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces \relax }}{44}{figure.caption.36}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces \relax }}{44}{figure.caption.38}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces \relax }}{45}{figure.caption.40}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces \relax }}{45}{figure.caption.42}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces \relax }}{46}{figure.caption.44}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces \relax }}{47}{figure.caption.34}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces \relax }}{47}{figure.caption.36}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces \relax }}{48}{figure.caption.38}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces \relax }}{48}{figure.caption.40}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces \relax }}{49}{figure.caption.42}%

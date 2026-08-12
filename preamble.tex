@@ -25,7 +25,7 @@
 
 % ---------- Graphics & figures ----------
 \usepackage{graphicx}
-\graphicspath{{figures/}{figures/placeholders/}}
+\graphicspath{{figures/}{figures/results/}{figures/placeholders/}}
 \usepackage{float}
 \usepackage{subcaption}
 \usepackage[font=small,labelfont=bf,justification=centering]{caption}
@@ -126,8 +126,8 @@
 % 10 lines is roughly the height of a typical figure placeholder plus its
 % caption, so a heading whose section opens with a float reserves enough room
 % for both; otherwise the pair moves to the next page together.
-\preto\section{\Needspace*{10\baselineskip}}
-\preto\subsection{\Needspace*{8\baselineskip}}
+\preto\section{\Needspace*{14\baselineskip}}
+\preto\subsection{\Needspace*{10\baselineskip}}
 \preto\subsubsection{\Needspace*{8\baselineskip}}
 \preto\paragraph{\Needspace*{5\baselineskip}}
 
